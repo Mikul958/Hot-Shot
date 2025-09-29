@@ -1,2 +1,2 @@
-# 2D-Minigame
+# Hot Shot!
 Repository containing all assets and information related to our 2D minigame for CSCE 552.
