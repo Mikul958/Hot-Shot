@@ -8,7 +8,7 @@ public static class CapEditorFramerate
 {
     static CapEditorFramerate()
     {
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
     }
 }
