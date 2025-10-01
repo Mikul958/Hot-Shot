@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3aa4315a21b37344b946ff74b2c66dc6
+guid: e01872178278ee842bdbc6211a4dff76
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8484120879067913727
-    second: pngtree-circle-clipart-black-circle-png-image_2381996_0
+      213: 4503185482781788880
+    second: Boost Panel Animation_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pngtree-circle-clipart-black-circle-png-image_2381996_0
+      name: Boost Panel Animation_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 360
-        height: 360
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ffd515c1df6adb570800000000000000
-      internalID: 8484120879067913727
+      spriteID: 0da87e276578e7e30800000000000000
+      internalID: 4503185482781788880
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      pngtree-circle-clipart-black-circle-png-image_2381996_0: 8484120879067913727
+      Boost Panel Animation_0: 4503185482781788880
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
