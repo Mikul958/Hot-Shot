@@ -316,7 +316,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0.5
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -327,7 +327,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &583057450
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -446,11 +446,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 583057448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bbac71c1b3941e48bbd5057ac496dbd, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f48c4b4558745444a816e8f8f3ac6db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestCollider
+  m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 583057449}
-  bounceStrength: 5
+  minMouseDiff: 2
+  maxMouseDiff: 10
+  maxHitSpeed: 5
+  maxSafeThreshold: 0.1
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +645,7 @@ Transform:
   m_GameObject: {fileID: 679017848}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.231731, y: -0.40160418, z: 0}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
