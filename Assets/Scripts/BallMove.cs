@@ -9,7 +9,9 @@ public class BallMove : MonoBehaviour
     // Constants, set in game engine
     public float minMouseDiff;      // Minimum distance between center of ball and mouse for a hit to happen.
     public float maxMouseDiff;      // Maximum distance between center of ball and mouse, further distances will not affect force.
-    public float maxHitSpeed;       // Speed applied to the ball at an input of maxHitLength. Speed applied ranges from 0 to maxHitVelocity.
+
+    public float minHitSpeed;       // Speed applied to the ball at an input distance of minMouseDiff.
+    public float maxHitSpeed;       // Speed applied to the ball at an input of maxMouseDiff.
     public float maxSafeThreshold;  // If the ball is moving below this speed, it is considered "safe" and can be hit.
 
     // Instance variables
@@ -53,37 +55,40 @@ public class BallMove : MonoBehaviour
 
     private void checkForBallRelease()
     {
-        // If not released, update mouse position and return;
+        // If not released, update mouse position and 
         if (Mouse.current.leftButton.isPressed)
         {
             mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            // TODO figure out line draw
+            updateHitIndicator(true);
 
             return;
         }
 
         // Else, hit ball and notify level manager
+        updateHitIndicator(false);
+        Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
+        if (resultVelocity != Vector2.zero)
+        {
+            Debug.Log("Added a stroke to counter");  // TODO notify level manager
+            rigidBody.linearVelocity += resultVelocity;
+        }
+    }
 
-        // TODO destroy drawn line
-
-        Vector2 mouseDifference = mousePos - rigidBody.position;
-
-        rigidBody.linearVelocity += mapMouseDifferenceToVelocity(mouseDifference);
-
-
-        // TODO call stroke increment in level manager
+    private void updateHitIndicator(bool keepActive)
+    {
+        // TODO figure how to draw the line sprite
     }
 
     private Vector2 mapMouseDifferenceToVelocity(Vector2 mouseDiff)
     {
         float magnitude = mouseDiff.magnitude;
-        if (magnitude < minMouseDiff)
+        if (magnitude <= minMouseDiff)
             return Vector2.zero;
-        float resultSpeed = (magnitude - minMouseDiff) * maxHitSpeed / (maxMouseDiff - minMouseDiff);  // Factor to linearly map mouseDiff length to speed
+        float resultSpeed = (magnitude - minMouseDiff) * (maxHitSpeed - minHitSpeed) / (maxMouseDiff - minMouseDiff) + minHitSpeed;
         if (resultSpeed > maxHitSpeed)
             resultSpeed = maxHitSpeed;
 
         Debug.Log("Hit ball at speed: " + resultSpeed);
-        return (mouseDiff / magnitude) * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
+        return mouseDiff / magnitude * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
     }
 }
