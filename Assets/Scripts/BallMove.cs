@@ -8,12 +8,14 @@ public class BallMove : MonoBehaviour
     public LineRenderer inputTrailRenderer;
 
     // Constants, set in game engine
+    public float maxSafeSpeed;      // If the ball is moving above this speed, inputs are disabled.
     public float minMouseDiff;      // Minimum drag distance required for a hit.
     public float maxMouseDiff;      // Maximum effective drag distance, further drag will not affect force.
 
     public float minHitSpeed;       // Speed applied to the ball at a drag distance of minMouseDiff.
     public float maxHitSpeed;       // Speed applied to the ball at a drag distance of maxMouseDiff.
-    public float maxSafeSpeed;  // If the ball is moving above this speed, inputs are disabled.
+    public float trailStart;        // Distance from the center of the ball the input trail starts.
+    public float maxTrailEnd;       // End of the input trail at a drag distance of maxMouseDiff.
 
     // Instance variables
     private Vector2 respawnPos;
@@ -50,7 +52,6 @@ public class BallMove : MonoBehaviour
         if (raycastHit.collider != null && raycastHit.collider.gameObject == gameObject)
         {
             isBallClicked = true;
-            inputTrailRenderer.enabled = true;
             Debug.Log("Clicked ball -- Raycast hit at position: " + mousePos);
         }
     }
@@ -61,12 +62,12 @@ public class BallMove : MonoBehaviour
         if (Mouse.current.leftButton.isPressed)
         {
             mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            updateInputTrail();
+            updateInputTrail(false);
             return;
         }
 
         // Else, hit ball and notify level manager
-        inputTrailRenderer.enabled = false;
+        updateInputTrail(true);
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
@@ -76,14 +77,29 @@ public class BallMove : MonoBehaviour
         }
     }
 
-    private void updateInputTrail()
+    private void updateInputTrail(bool destroy)
     {
-        // TODO this is all test code
+        // Check mouseDiff length is large enough to apply velocity
         Vector2 mouseDiff = mousePos - rigidBody.position;
-        mouseDiff.Normalize();
+        if (destroy || mouseDiff.magnitude <= minMouseDiff)
+        {
+            inputTrailRenderer.enabled = false;
+            return;
+        }
 
-        inputTrailRenderer.SetPosition(0, Vector3.zero);
-        inputTrailRenderer.SetPosition(1, new Vector3(mouseDiff.x, mouseDiff.y, 0) * -5);
+        // Calculate start and endpoints of trail given mouseDiff
+        if (mouseDiff.magnitude > maxMouseDiff)
+            mouseDiff = mouseDiff.normalized * maxMouseDiff;
+        float trailLength = (mouseDiff.magnitude - minMouseDiff) * maxTrailEnd / (maxMouseDiff - minMouseDiff) + trailStart;
+
+        mouseDiff = -1 * mouseDiff.normalized;
+        Vector3 trailEndPos = new Vector3(mouseDiff.x * trailLength, mouseDiff.y * trailLength, 0);
+        Vector3 trailStartPos = new Vector3(mouseDiff.x * trailStart, mouseDiff.y * trailStart, 0);
+
+        // Apply to LineRenderer and enable (or keep enabled if already enabled)
+        inputTrailRenderer.SetPosition(0, trailStartPos);
+        inputTrailRenderer.SetPosition(1, trailEndPos);
+        inputTrailRenderer.enabled = true;
     }
 
     private Vector2 mapMouseDifferenceToVelocity(Vector2 mouseDiff)

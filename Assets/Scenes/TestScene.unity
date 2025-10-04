@@ -727,11 +727,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 583057449}
   inputTrailRenderer: {fileID: 583057455}
+  maxSafeSpeed: 0.05
   minMouseDiff: 2
   maxMouseDiff: 10
-  minHitSpeed: 1
+  minHitSpeed: 0
   maxHitSpeed: 20
-  maxSafeSpeed: 0
+  trailStart: 0.25
+  maxTrailEnd: 8
 --- !u!114 &583057454
 MonoBehaviour:
   m_ObjectHideFlags: 0
