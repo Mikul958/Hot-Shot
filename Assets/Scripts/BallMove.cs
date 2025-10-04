@@ -11,7 +11,6 @@ public class BallMove : MonoBehaviour
     public float maxSafeSpeed;      // If the ball is moving above this speed, inputs are disabled.
     public float minMouseDiff;      // Minimum drag distance required for a hit.
     public float maxMouseDiff;      // Maximum effective drag distance, further drag will not affect force.
-
     public float minHitSpeed;       // Speed applied to the ball at a drag distance of minMouseDiff.
     public float maxHitSpeed;       // Speed applied to the ball at a drag distance of maxMouseDiff.
     public float trailStart;        // Distance from the center of the ball the input trail starts.
@@ -92,9 +91,9 @@ public class BallMove : MonoBehaviour
             mouseDiff = mouseDiff.normalized * maxMouseDiff;
         float trailLength = (mouseDiff.magnitude - minMouseDiff) * maxTrailEnd / (maxMouseDiff - minMouseDiff) + trailStart;
 
-        mouseDiff = -1 * mouseDiff.normalized;
-        Vector3 trailEndPos = new Vector3(mouseDiff.x * trailLength, mouseDiff.y * trailLength, 0);
-        Vector3 trailStartPos = new Vector3(mouseDiff.x * trailStart, mouseDiff.y * trailStart, 0);
+        mouseDiff.Normalize();
+        Vector3 trailEndPos = new Vector3(-mouseDiff.x * trailLength, -mouseDiff.y * trailLength, 0);
+        Vector3 trailStartPos = new Vector3(-mouseDiff.x * trailStart, -mouseDiff.y * trailStart, 0);
 
         // Apply to LineRenderer and enable (or keep enabled if already enabled)
         inputTrailRenderer.SetPosition(0, trailStartPos);
