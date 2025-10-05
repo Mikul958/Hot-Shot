@@ -116,12 +116,18 @@ public class BallMove : MonoBehaviour
         return mouseDiff / magnitude * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
     }
 
-    public void applyBoost(Vector2 boostVector)
+    public void applyBoost(Vector2 direction, float boostSpeed)
     {
-        Debug.Log("Apply boost vector: " + boostVector);  // TODO
+        Vector2 boostVector = direction * boostSpeed;
+        float currentSpeedInBoostDir = Vector2.Dot(rigidBody.linearVelocity, boostVector) / boostSpeed;
+
+        if (currentSpeedInBoostDir + boostSpeed < boostSpeed)
+            rigidBody.linearVelocity += boostVector;
+        else if (currentSpeedInBoostDir < boostSpeed)
+            rigidBody.linearVelocity += boostVector * (boostSpeed - currentSpeedInBoostDir) / boostSpeed;
     }
 
-    public void handleOutOfBounds()
+    public void handleRespawn()
     {
         // TODO slow down ball + make invisible temporarily, call from BallCollide
 

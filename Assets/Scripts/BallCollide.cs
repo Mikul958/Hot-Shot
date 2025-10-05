@@ -11,6 +11,9 @@ public class BallCollide : MonoBehaviour
     public float boostSpeed;        // Speed boost panels attempt to apply in their direction
     public float rampBoostSpeed;    // Speed ramps attempt to apply in their direction
     public float rampHeight;        // Peak "height" ramps give the ball, correlates to collision ignore time
+    public float boostCooldown;     // Minimum time allowed between two boost panel/ramp collisions
+    public float outOfBoundsWait;   // Time between touching OoB collision and being visibly counted out of bounds
+    public float respawnTime;       // Time it takes for the player to respawn after OoB is fully triggered
     public float greenDrag;         // Drag applied when ball is on the default terrain
     public float roughDrag;         // Drag applied when ball is on rough terrain
     public float sandDrag;          // Drag applied when ball is on sand
@@ -18,8 +21,12 @@ public class BallCollide : MonoBehaviour
     public float noTerrainDrag;     // Drag applied when ball is in the "air" or over out of bounds
 
     // Instance variables
-    LayerMask floorLayers;
-    LayerMask specialLayers;
+    private float boostTimer = 0f;
+    private float height = 0f;
+    private float outOfBoundsTimer = 0f;
+    private float respawnTimer = 0f;
+    private LayerMask floorLayers;
+    private LayerMask specialLayers;
 
     void Start()
     {
@@ -41,7 +48,9 @@ public class BallCollide : MonoBehaviour
 
     private void updateTimers()
     {
-
+        boostTimer -= Time.deltaTime;
+        if (boostTimer < 0)
+            boostTimer = 0;
     }
 
     private void runFloorChecks()
@@ -69,16 +78,16 @@ public class BallCollide : MonoBehaviour
             Debug.Log("Level complete!");
             // TODO notify level manager of completion and do ball velocity stuff
         }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp") && boostTimer == 0f)
         {
             // TODO height logic
-            Vector2 boostVector = collider.transform.right * rampBoostSpeed;
-            ballMove.applyBoost(boostVector);
+            ballMove.applyBoost(collider.transform.right, rampBoostSpeed);
+            boostTimer += boostCooldown;
         }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost"))
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
         {
-            Vector2 boostVector = collider.transform.right * boostSpeed;
-            ballMove.applyBoost(boostVector);
+            ballMove.applyBoost(collider.transform.right, boostSpeed);
+            boostTimer += boostCooldown;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
         {
