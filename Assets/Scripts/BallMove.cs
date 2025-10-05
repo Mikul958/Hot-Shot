@@ -114,6 +114,11 @@ public class BallMove : MonoBehaviour
         return mouseDiff / magnitude * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
     }
 
+    public void applyBoost(Vector2 boostVector)
+    {
+        
+    }
+
     public void handleOutOfBounds()
     {
         // TODO slow down ball + make invisible temporarily, call from BallCollide
