@@ -118,7 +118,7 @@ public class BallMove : MonoBehaviour
 
     public void applyBoost(Vector2 boostVector)
     {
-        
+        Debug.Log("Apply boost vector: " + boostVector);  // TODO
     }
 
     public void handleOutOfBounds()

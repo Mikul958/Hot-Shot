@@ -5,13 +5,17 @@ public class BallCollide : MonoBehaviour
     // Referenced components
     public Transform ballTransform;
     public Rigidbody2D rigidBody;
+    public BallMove ballMove;
 
     // Constants, set in game engine
-    public float greenDrag;
-    public float roughDrag;
-    public float sandDrag;
-    public float iceDrag;
-    public float waterDrag;
+    public float boostSpeed;        // Speed boost panels attempt to apply in their direction
+    public float rampBoostSpeed;    // Speed ramps attempt to apply in their direction
+    public float rampHeight;        // Peak "height" ramps give the ball, correlates to collision ignore time
+    public float greenDrag;         // Drag applied when ball is on the default terrain
+    public float roughDrag;         // Drag applied when ball is on rough terrain
+    public float sandDrag;          // Drag applied when ball is on sand
+    public float iceDrag;           // Drag applied when ball is on ice
+    public float noTerrainDrag;     // Drag applied when ball is in the "air" or over out of bounds
 
     // Instance variables
     LayerMask floorLayers;
@@ -26,13 +30,13 @@ public class BallCollide : MonoBehaviour
     void Update()
     {
         updateTimers();
-        runNormalFloorChecks();
+        runFloorChecks();
         runSpecialFloorChecks();
     }
 
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        
+        // TODO not sure if I will end up using this, maybe can for everything except for hole and oob?
     }
 
     private void updateTimers()
@@ -40,11 +44,11 @@ public class BallCollide : MonoBehaviour
 
     }
 
-    private void runNormalFloorChecks()
+    private void runFloorChecks()
     {
         Collider2D collider = Physics2D.OverlapPoint(ballTransform.position, floorLayers);
         if (collider == null)
-            rigidBody.linearDamping = 0f;
+            rigidBody.linearDamping = noTerrainDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Green"))
             rigidBody.linearDamping = greenDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Rough"))
@@ -67,18 +71,18 @@ public class BallCollide : MonoBehaviour
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
-            Debug.Log("Collided with a ramp");
-            // TODO call applyBoost in BallMove based on boost panel direction
+            // TODO height logic
+            Vector2 boostVector = collider.transform.right * rampBoostSpeed;
+            ballMove.applyBoost(boostVector);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost"))
         {
-            Debug.Log("Collided with a boost panel");
-            // TODO call applyBoost in BallMove based on boost panel direction
+            Vector2 boostVector = collider.transform.right * boostSpeed;
+            ballMove.applyBoost(boostVector);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
         {
             Debug.Log("Collided with out of bounds");
-            rigidBody.linearDamping = waterDrag;
             // TODO call handleOutOfBounds in BallMove
         }
     }

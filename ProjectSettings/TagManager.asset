@@ -11,16 +11,16 @@ TagManager:
   - 
   - Water
   - UI
-  - Terrain
+  - OutOfBounds
+  - Ice
+  - Sand
+  - Rough
+  - Green
   - Boost
   - Ramp
   - Wall
   - Hole
   - Ball
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
