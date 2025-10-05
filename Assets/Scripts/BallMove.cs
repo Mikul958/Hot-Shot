@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,6 +68,7 @@ public class BallMove : MonoBehaviour
 
         // Else, hit ball and notify level manager
         updateInputTrail(true);
+        isBallClicked = false;
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
