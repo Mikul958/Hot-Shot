@@ -6,6 +6,7 @@ public class BallMove : MonoBehaviour
 {
     // Referenced components
     public Rigidbody2D rigidBody;
+    public SpriteRenderer ballRenderer;
     public LineRenderer inputTrailRenderer;
 
     // Constants, set in game engine
@@ -33,7 +34,7 @@ public class BallMove : MonoBehaviour
     public void handlePlayerInput()
     {
         // Ignore player input if ball is moving too fast
-        if (!inputEnabled && rigidBody.linearVelocity.magnitude > maxSafeSpeed)
+        if (!inputEnabled || rigidBody.linearVelocity.magnitude > maxSafeSpeed)
             return;
 
         // Check for user inputs
@@ -73,7 +74,7 @@ public class BallMove : MonoBehaviour
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
-            Debug.Log("Added a stroke to counter");  // TODO notify level manager
+            Debug.Log("Pretend I added a stroke to the counter");  // TODO notify level manager
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
         }
@@ -130,6 +131,7 @@ public class BallMove : MonoBehaviour
 
     public void disableMovement()
     {
+        ballRenderer.enabled = false;
         rigidBody.linearVelocity = Vector2.zero;
         inputEnabled = false;
     }
@@ -137,6 +139,7 @@ public class BallMove : MonoBehaviour
     {
         rigidBody.linearVelocity = Vector2.zero;
         rigidBody.position = respawnPos;
+        ballRenderer.enabled = false;
         inputEnabled = true;
     }
 }

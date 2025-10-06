@@ -854,6 +854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 583057449}
+  ballRenderer: {fileID: 583057450}
   inputTrailRenderer: {fileID: 583057455}
   maxSafeSpeed: 0.05
   minMouseDiff: 2

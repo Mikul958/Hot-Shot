@@ -29,7 +29,6 @@ public class BallCollide : MonoBehaviour
     private float rampTimer = 0f;           // Used to time each phase of ramp height
     private int outOfBoundsState = 0;       // 0 = safe, 1 = OoB, waiting on trigger, 2 = waiting on respawn
     private float outOfBoundsTimer = 0f;
-    private float respawnTimer = 0f;
     private LayerMask floorLayers;
     private LayerMask specialLayers;
 
@@ -128,8 +127,7 @@ public class BallCollide : MonoBehaviour
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Hole"))
         {
-            Debug.Log("Level complete!");
-            // TODO notify level manager of completion and do ball velocity stuff
+            initiateHoleEntry();
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
@@ -147,6 +145,13 @@ public class BallCollide : MonoBehaviour
         }
     }
 
+    private void initiateHoleEntry()
+    {
+        // TODO I'll make this look at bit more natural if I have time
+        ballMove.disableMovement();
+        Debug.Log("Pretend I ended the level");  // TODO call level manager -> level complete
+        this.enabled = false;
+    }
     private void initiateRampJump()
     {
         rigidBody.linearDamping = noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
