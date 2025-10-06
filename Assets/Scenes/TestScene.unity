@@ -879,7 +879,7 @@ MonoBehaviour:
   ballMove: {fileID: 583057453}
   boostSpeed: 20
   rampBoostSpeed: 10
-  rampHeight: 10
+  maxRampHeight: 10
   boostCooldown: 1
   outOfBoundsWait: 0
   respawnTime: 0

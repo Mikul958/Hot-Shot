@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BallCollide : MonoBehaviour
@@ -10,7 +11,8 @@ public class BallCollide : MonoBehaviour
     // Constants, set in game engine
     public float boostSpeed;        // Speed boost panels attempt to apply in their direction
     public float rampBoostSpeed;    // Speed ramps attempt to apply in their direction
-    public float rampHeight;        // Peak "height" ramps give the ball, correlates to collision ignore time
+    public float rampScale;         // Additional visual scale applied to ball by ramp
+    public float rampHangtime;      // Amount of time ball stays at its peak, rise/fall phases take the same amount of time
     public float boostCooldown;     // Minimum time allowed between two boost panel/ramp collisions
     public float outOfBoundsWait;   // Time between touching OoB collision and being visibly counted out of bounds
     public float respawnTime;       // Time it takes for the player to respawn after OoB is fully triggered
@@ -22,7 +24,8 @@ public class BallCollide : MonoBehaviour
 
     // Instance variables
     private float boostTimer = 0f;
-    private float height = 0f;
+    private int rampState = 0;      // 0 = resting, 1 = rising, 2 = peak, 3 = falling
+    private float rampTimer = 0f;   // Used to time each phase of ramp height
     private float outOfBoundsTimer = 0f;
     private float respawnTimer = 0f;
     private LayerMask floorLayers;
@@ -37,20 +40,44 @@ public class BallCollide : MonoBehaviour
     void Update()
     {
         updateTimers();
-        runFloorChecks();
-        runSpecialFloorChecks();
-    }
-
-    public void OnTriggerEnter2D(Collider2D collider)
-    {
-        // TODO not sure if I will end up using this, maybe can for everything except for hole and oob?
+        if (rampState == 0)
+        {
+            runFloorChecks();
+            runSpecialFloorChecks();
+        }
     }
 
     private void updateTimers()
     {
+        // Decrement boostTimer
         boostTimer -= Time.deltaTime;
-        if (boostTimer < 0)
-            boostTimer = 0;
+        if (boostTimer < 0f)
+            boostTimer = 0f;
+
+        // Increment / decrement timers and update ball scale
+        rampTimer -= Time.deltaTime;
+        if (rampTimer < 0)
+            rampTimer = 0f;
+
+        if (rampState == 1)
+        {
+            float ballScale = 1 + rampScale * (rampHangtime - rampTimer) / rampHangtime;
+            transform.localScale = new Vector3(ballScale, ballScale, 1);
+        }
+        else if (rampState == 3)
+        {
+            float ballScale = 1 + rampScale * rampTimer / rampHangtime;
+            transform.localScale = new Vector3(ballScale, ballScale, 1);
+        }
+
+        if (rampState != 0 && rampTimer == 0f)
+        {
+            rampState = (rampState + 1) % 4;
+            rampTimer += rampHangtime;
+        }
+
+        // Update out of bounds timers and notify BallMove if needed
+        // TODO
     }
 
     private void runFloorChecks()
@@ -80,7 +107,9 @@ public class BallCollide : MonoBehaviour
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp") && boostTimer == 0f)
         {
-            // TODO height logic
+            rigidBody.linearDamping = noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
+            rampState = 1;
+            rampTimer = rampHangtime;
             ballMove.applyBoost(collider.transform.right, rampBoostSpeed);
             boostTimer += boostCooldown;
         }
