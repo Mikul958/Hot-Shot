@@ -88,12 +88,13 @@ public class BallCollide : MonoBehaviour
 
         // Update out of bounds timers and notify BallMove if needed
         outOfBoundsTimer -= Time.deltaTime;
-        if (outOfBoundsTimer < 0)
+        if (outOfBoundsTimer <= 0)
         {
+            outOfBoundsTimer = 0f;
             if (outOfBoundsState == 1)
             {
                 // TODO play a water splash animation / sound?
-                ballMove.disableMovement();
+                ballMove.hideBall();
                 outOfBoundsState = 2;
                 outOfBoundsTimer += respawnWait;
             }
@@ -101,6 +102,7 @@ public class BallCollide : MonoBehaviour
             {
                 ballMove.respawnBall();
                 outOfBoundsState = 0;
+                outOfBoundsTimer += 0.2f;   // Band-aid fix to second out of bounds trigger on respawn lol
             }
         }
     }
@@ -139,7 +141,7 @@ public class BallCollide : MonoBehaviour
             ballMove.applyBoost(collider.transform.right, boostSpeed);
             boostTimer += boostCooldown;
         }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds") && outOfBoundsTimer == 0f)
         {
             initiateOutOfBounds();
         }
@@ -148,7 +150,7 @@ public class BallCollide : MonoBehaviour
     private void initiateHoleEntry()
     {
         // TODO I'll make this look at bit more natural if I have time
-        ballMove.disableMovement();
+        ballMove.hideBall();
         Debug.Log("Pretend I ended the level");  // TODO call level manager -> level complete
         this.enabled = false;
     }

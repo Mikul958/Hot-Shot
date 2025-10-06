@@ -50,11 +50,11 @@ public class BallMove : MonoBehaviour
             return;
 
         mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D raycastHit = Physics2D.Raycast(mousePos, Vector2.zero);  // TODO may have to switch to RaycastAll if we have overlapping colliders
-        if (raycastHit.collider != null && raycastHit.collider.gameObject == gameObject)
+        RaycastHit2D[] raycastHits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+        foreach (RaycastHit2D hit in raycastHits)
         {
-            isBallClicked = true;
-            Debug.Log("Clicked ball -- Raycast hit at position: " + mousePos);
+            if (hit.collider.gameObject == gameObject)
+                isBallClicked = true;
         }
     }
 
@@ -114,7 +114,6 @@ public class BallMove : MonoBehaviour
         if (resultSpeed > maxHitSpeed)
             resultSpeed = maxHitSpeed;
 
-        Debug.Log("Hit ball at speed: " + resultSpeed);
         return mouseDiff / magnitude * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
     }
 
@@ -129,7 +128,7 @@ public class BallMove : MonoBehaviour
             rigidBody.linearVelocity += boostVector * (boostSpeed - currentSpeedInBoostDir) / boostSpeed;
     }
 
-    public void disableMovement()
+    public void hideBall()
     {
         ballRenderer.enabled = false;
         rigidBody.linearVelocity = Vector2.zero;
@@ -139,7 +138,7 @@ public class BallMove : MonoBehaviour
     {
         rigidBody.linearVelocity = Vector2.zero;
         rigidBody.position = respawnPos;
-        ballRenderer.enabled = false;
+        ballRenderer.enabled = true;
         inputEnabled = true;
     }
 }
