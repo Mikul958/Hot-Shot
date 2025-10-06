@@ -6,6 +6,7 @@ public class BallCollide : MonoBehaviour
     // Referenced components
     public Transform ballTransform;
     public Rigidbody2D rigidBody;
+    public CircleCollider2D ballCollider;
     public BallMove ballMove;
 
     // Constants, set in game engine
@@ -13,7 +14,7 @@ public class BallCollide : MonoBehaviour
     public float rampBoostSpeed;    // Speed ramps attempt to apply in their direction
     public float rampScale;         // Additional visual scale applied to ball by ramp
     public float rampHangtime;      // Amount of time ball stays at its peak, rise/fall phases take the same amount of time
-    public float boostCooldown;     // Minimum time allowed between two boost panel/ramp collisions
+    public float boostCooldown;     // Minimum time allowed between two boost panel collisions (not ramps)
     public float outOfBoundsWait;   // Time between touching OoB collision and being visibly counted out of bounds
     public float respawnTime;       // Time it takes for the player to respawn after OoB is fully triggered
     public float greenDrag;         // Drag applied when ball is on the default terrain
@@ -70,10 +71,19 @@ public class BallCollide : MonoBehaviour
             transform.localScale = new Vector3(ballScale, ballScale, 1);
         }
 
-        if (rampState != 0 && rampTimer == 0f)
+        // Handle ramp state changes
+        if (rampTimer == 0f)
         {
-            rampState = (rampState + 1) % 4;
-            rampTimer += rampHangtime;
+            if (rampState == 3)
+            {
+                ballCollider.enabled = true;    // Ball has landed, re-enable collision
+                rampState = 0;
+            }
+            else if (rampState != 0)
+            {
+                rampState++;
+                rampTimer += rampHangtime;
+            }
         }
 
         // Update out of bounds timers and notify BallMove if needed
@@ -105,13 +115,10 @@ public class BallCollide : MonoBehaviour
             Debug.Log("Level complete!");
             // TODO notify level manager of completion and do ball velocity stuff
         }
-        else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp") && boostTimer == 0f)
+        else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
-            rigidBody.linearDamping = noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
-            rampState = 1;
-            rampTimer = rampHangtime;
+            initiateRampJump();
             ballMove.applyBoost(collider.transform.right, rampBoostSpeed);
-            boostTimer += boostCooldown;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
         {
@@ -123,6 +130,14 @@ public class BallCollide : MonoBehaviour
             Debug.Log("Collided with out of bounds");
             // TODO call handleOutOfBounds in BallMove
         }
+    }
+
+    private void initiateRampJump()
+    {
+        rigidBody.linearDamping = noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
+        ballCollider.enabled = false;               // Disable collision with walls
+        rampState = 1;
+        rampTimer = rampHangtime;
     }
     
     // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Walls"), true) -- use this on ramp activation
