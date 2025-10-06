@@ -18,9 +18,10 @@ public class BallMove : MonoBehaviour
     public float maxTrailEnd;       // End of the input trail at a drag distance of maxMouseDiff.
 
     // Instance variables
-    private Vector2 respawnPos;
     private Vector2 mousePos;
+    private bool inputEnabled = true;
     private bool isBallClicked = false;
+    private Vector2 respawnPos;
 
     void Start() { }
 
@@ -32,7 +33,7 @@ public class BallMove : MonoBehaviour
     public void handlePlayerInput()
     {
         // Ignore player input if ball is moving too fast
-        if (rigidBody.linearVelocity.magnitude > maxSafeSpeed)
+        if (!inputEnabled && rigidBody.linearVelocity.magnitude > maxSafeSpeed)
             return;
 
         // Check for user inputs
@@ -127,13 +128,15 @@ public class BallMove : MonoBehaviour
             rigidBody.linearVelocity += boostVector * (boostSpeed - currentSpeedInBoostDir) / boostSpeed;
     }
 
-    public void handleRespawn()
+    public void disableMovement()
     {
-        // TODO slow down ball + make invisible temporarily, call from BallCollide
-
+        rigidBody.linearVelocity = Vector2.zero;
+        inputEnabled = false;
+    }
+    public void respawnBall()
+    {
         rigidBody.linearVelocity = Vector2.zero;
         rigidBody.position = respawnPos;
-
-        // TODO respawn timer stuff
+        inputEnabled = true;
     }
 }

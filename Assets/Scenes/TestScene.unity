@@ -145,13 +145,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273547459}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.45, y: 4.39, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 12.73, y: -6.26, z: 0}
   m_LocalScale: {x: 25, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2019226708}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &273547461
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -653,8 +653,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1294086063
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -7955819631750886615, guid: 24dde63ec3eadf0428e26466cbcfe2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -775,8 +775,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1135709793
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 1490466627755090707, guid: 330a6a20b26b8734e952ef6a3d25ab6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -876,13 +876,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   ballTransform: {fileID: 583057451}
   rigidBody: {fileID: 583057449}
+  ballCollider: {fileID: 583057452}
   ballMove: {fileID: 583057453}
   boostSpeed: 20
   rampBoostSpeed: 10
-  maxRampHeight: 10
+  rampScale: 0.5
+  rampHangtime: 0.3
   boostCooldown: 1
-  outOfBoundsWait: 0
-  respawnTime: 0
+  outOfBoundsWait: 0.2
+  respawnWait: 1
   greenDrag: 2
   roughDrag: 5
   sandDrag: 10
@@ -1035,7 +1037,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 0000000051d0ddb29f714ebc
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1167,8 +1169,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1294086063
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -1808847737386566617, guid: 00734c729fadea04ba0b20e701f17335, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1189,13 +1191,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679017848}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: -2.06, y: -2.42, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.26, y: -2.76, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &679017852
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1543,7 +1545,7 @@ Transform:
   m_GameObject: {fileID: 808180994}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -4.37, y: 6.32, z: 0}
+  m_LocalPosition: {x: 6.89, y: -4.66, z: 0}
   m_LocalScale: {x: 25, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1853,8 +1855,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1294086063
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -7956061091734974409, guid: 61946437805aa8442b035044f16c83e8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1876,7 +1878,7 @@ Transform:
   m_GameObject: {fileID: 1202598803}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.17, y: 0.77, z: 0}
+  m_LocalPosition: {x: 1.07, y: -2.75, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

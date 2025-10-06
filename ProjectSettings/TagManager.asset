@@ -41,5 +41,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Course Objects
+    uniqueID: 3000881233
+    locked: 0
+  - name: Ball
+    uniqueID: 3159257503
+    locked: 0
   m_RenderingLayers:
   - Default

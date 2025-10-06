@@ -16,7 +16,7 @@ public class BallCollide : MonoBehaviour
     public float rampHangtime;      // Amount of time ball stays at its peak, rise/fall phases take the same amount of time
     public float boostCooldown;     // Minimum time allowed between two boost panel collisions (not ramps)
     public float outOfBoundsWait;   // Time between touching OoB collision and being visibly counted out of bounds
-    public float respawnTime;       // Time it takes for the player to respawn after OoB is fully triggered
+    public float respawnWait;       // Time it takes for the player to respawn after OoB is fully triggered
     public float greenDrag;         // Drag applied when ball is on the default terrain
     public float roughDrag;         // Drag applied when ball is on rough terrain
     public float sandDrag;          // Drag applied when ball is on sand
@@ -25,8 +25,9 @@ public class BallCollide : MonoBehaviour
 
     // Instance variables
     private float boostTimer = 0f;
-    private int rampState = 0;      // 0 = resting, 1 = rising, 2 = peak, 3 = falling
-    private float rampTimer = 0f;   // Used to time each phase of ramp height
+    private int rampState = 0;              // 0 = resting, 1 = rising, 2 = peak, 3 = falling
+    private float rampTimer = 0f;           // Used to time each phase of ramp height
+    private int outOfBoundsState = 0;       // 0 = safe, 1 = OoB, waiting on trigger, 2 = waiting on respawn
     private float outOfBoundsTimer = 0f;
     private float respawnTimer = 0f;
     private LayerMask floorLayers;
@@ -41,7 +42,7 @@ public class BallCollide : MonoBehaviour
     void Update()
     {
         updateTimers();
-        if (rampState == 0)
+        if (rampState == 0 && outOfBoundsState == 0)
         {
             runFloorChecks();
             runSpecialFloorChecks();
@@ -87,7 +88,22 @@ public class BallCollide : MonoBehaviour
         }
 
         // Update out of bounds timers and notify BallMove if needed
-        // TODO
+        outOfBoundsTimer -= Time.deltaTime;
+        if (outOfBoundsTimer < 0)
+        {
+            if (outOfBoundsState == 1)
+            {
+                // TODO play a water splash animation / sound?
+                ballMove.disableMovement();
+                outOfBoundsState = 2;
+                outOfBoundsTimer += respawnWait;
+            }
+            else if (outOfBoundsState == 2)
+            {
+                ballMove.respawnBall();
+                outOfBoundsState = 0;
+            }
+        }
     }
 
     private void runFloorChecks()
@@ -127,8 +143,7 @@ public class BallCollide : MonoBehaviour
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
         {
-            Debug.Log("Collided with out of bounds");
-            // TODO call handleOutOfBounds in BallMove
+            initiateOutOfBounds();
         }
     }
 
@@ -139,6 +154,10 @@ public class BallCollide : MonoBehaviour
         rampState = 1;
         rampTimer = rampHangtime;
     }
-    
-    // Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Ball"), LayerMask.NameToLayer("Walls"), true) -- use this on ramp activation
+
+    private void initiateOutOfBounds()
+    {
+        outOfBoundsState = 1;
+        outOfBoundsTimer = outOfBoundsWait;
+    }
 }
