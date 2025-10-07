@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ public class BallMove : MonoBehaviour
 {
     // Referenced components
     public Rigidbody2D rigidBody;
+    public SpriteRenderer ballRenderer;
     public LineRenderer inputTrailRenderer;
 
     // Constants, set in game engine
@@ -17,9 +19,10 @@ public class BallMove : MonoBehaviour
     public float maxTrailEnd;       // End of the input trail at a drag distance of maxMouseDiff.
 
     // Instance variables
-    private Vector2 respawnPos;
     private Vector2 mousePos;
+    private bool inputEnabled = true;
     private bool isBallClicked = false;
+    private Vector2 respawnPos;
 
     void Start() { }
 
@@ -31,7 +34,7 @@ public class BallMove : MonoBehaviour
     public void handlePlayerInput()
     {
         // Ignore player input if ball is moving too fast
-        if (rigidBody.linearVelocity.magnitude > maxSafeSpeed)
+        if (!inputEnabled || rigidBody.linearVelocity.magnitude > maxSafeSpeed)
             return;
 
         // Check for user inputs
@@ -47,11 +50,11 @@ public class BallMove : MonoBehaviour
             return;
 
         mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        RaycastHit2D raycastHit = Physics2D.Raycast(mousePos, Vector2.zero);  // TODO may have to switch to RaycastAll if we have overlapping colliders
-        if (raycastHit.collider != null && raycastHit.collider.gameObject == gameObject)
+        RaycastHit2D[] raycastHits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+        foreach (RaycastHit2D hit in raycastHits)
         {
-            isBallClicked = true;
-            Debug.Log("Clicked ball -- Raycast hit at position: " + mousePos);
+            if (hit.collider.gameObject == gameObject)
+                isBallClicked = true;
         }
     }
 
@@ -67,10 +70,11 @@ public class BallMove : MonoBehaviour
 
         // Else, hit ball and notify level manager
         updateInputTrail(true);
+        isBallClicked = false;
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
-            Debug.Log("Added a stroke to counter");  // TODO notify level manager
+            Debug.Log("Pretend I added a stroke to the counter");  // TODO notify level manager
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
         }
@@ -110,17 +114,31 @@ public class BallMove : MonoBehaviour
         if (resultSpeed > maxHitSpeed)
             resultSpeed = maxHitSpeed;
 
-        Debug.Log("Hit ball at speed: " + resultSpeed);
         return mouseDiff / magnitude * -resultSpeed;  // Normalize mouseDiff vector, then multiply by new speed and invert direction.
     }
 
-    public void handleOutOfBounds()
+    public void applyBoost(Vector2 direction, float boostSpeed)
     {
-        // TODO slow down ball + make invisible temporarily, call from BallCollide
+        Vector2 boostVector = direction * boostSpeed;
+        float currentSpeedInBoostDir = Vector2.Dot(rigidBody.linearVelocity, boostVector) / boostSpeed;
 
+        if (currentSpeedInBoostDir + boostSpeed < boostSpeed)
+            rigidBody.linearVelocity += boostVector;
+        else if (currentSpeedInBoostDir < boostSpeed)
+            rigidBody.linearVelocity += boostVector * (boostSpeed - currentSpeedInBoostDir) / boostSpeed;
+    }
+
+    public void hideBall()
+    {
+        ballRenderer.enabled = false;
+        rigidBody.linearVelocity = Vector2.zero;
+        inputEnabled = false;
+    }
+    public void respawnBall()
+    {
         rigidBody.linearVelocity = Vector2.zero;
         rigidBody.position = respawnPos;
-
-        // TODO respawn timer stuff
+        ballRenderer.enabled = true;
+        inputEnabled = true;
     }
 }
