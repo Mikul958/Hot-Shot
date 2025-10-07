@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class BallMove : MonoBehaviour
@@ -8,6 +9,7 @@ public class BallMove : MonoBehaviour
     public Rigidbody2D rigidBody;
     public SpriteRenderer ballRenderer;
     public LineRenderer inputTrailRenderer;
+    private LevelManager levelManager;
 
     // Frequently-used global constants, obtained from GameConfig
     private float maxSafeSpeed;
@@ -26,6 +28,8 @@ public class BallMove : MonoBehaviour
 
     void Start()
     {
+        levelManager = FindFirstObjectByType<LevelManager>();
+
         maxSafeSpeed = GameConfig.instance.maxSafeSpeed;
         minHitSpeed = GameConfig.instance.minHitSpeed;
         maxHitSpeed = GameConfig.instance.maxHitSpeed;
@@ -83,7 +87,7 @@ public class BallMove : MonoBehaviour
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
-            Debug.Log("Pretend I added a stroke to the counter");  // TODO notify level manager
+            levelManager.addStroke();   // Notify level manager that the ball has been hit
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
         }

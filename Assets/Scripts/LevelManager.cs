@@ -23,16 +23,18 @@ public class LevelManager : MonoBehaviour
 
     public void addStroke()
     {
+        Debug.Log("LevelManager::addStroke() invoked");
         strokes++;
     }
 
     public void restartLevel()
     {
+        Debug.Log("LevelManager::restartLevel() invoked");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void endLevel()
     {
-        
+        Debug.Log("LevelManager::endLevel() invoked");   
     }
 }

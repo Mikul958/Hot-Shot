@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallCollide : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class BallCollide : MonoBehaviour
     public Rigidbody2D rigidBody;
     public CircleCollider2D ballCollider;
     public BallMove ballMove;
+    private LevelManager levelManager;
 
     // Frequenly-used global constants, obtained from GameConfig
     private float configAddedRampScale;
@@ -24,6 +26,8 @@ public class BallCollide : MonoBehaviour
 
     void Start()
     {
+        levelManager = FindFirstObjectByType<LevelManager>();
+
         configAddedRampScale = GameConfig.instance.addedRampScale;
         configRampHangtime = GameConfig.instance.rampHangtime;
 
@@ -144,13 +148,13 @@ public class BallCollide : MonoBehaviour
     {
         // TODO I'll make this look at bit more natural if I have time
         ballMove.hideBall();
-        Debug.Log("Pretend I ended the level");  // TODO call level manager -> level complete
+        levelManager.endLevel();     // Notify level manager that the level has ended
         this.enabled = false;
     }
     private void initiateRampJump()
     {
         rigidBody.linearDamping = GameConfig.instance.noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
-        ballCollider.enabled = false;               // Disable collision with walls
+        ballCollider.enabled = false;                                   // Disable collision with walls
         rampState = 1;
         rampTimer = configRampHangtime;
     }
