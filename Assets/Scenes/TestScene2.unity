@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 354161133}
   - component: {fileID: 354161132}
   m_Layer: 0
-  m_Name: hole.png_0
+  m_Name: hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,15 +360,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7246289862028116123, guid: cab49a31aa6c20541a0550937e0fa2bc, type: 3}
+  m_Sprite: {fileID: -7955819631750886615, guid: 24dde63ec3eadf0428e26466cbcfe2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.17, y: 0.17}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &354161135
@@ -602,6 +602,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512a3aa6217c2b419cdce0c74eb7f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  ballTransform: {fileID: 0}
+  rigidBody: {fileID: 0}
+  ballCollider: {fileID: 0}
+  ballMove: {fileID: 0}
+  boostSpeed: 0
+  rampBoostSpeed: 0
+  rampScale: 0
+  rampHangtime: 0
+  boostCooldown: 0
+  outOfBoundsWait: 0
+  respawnWait: 0
+  greenDrag: 0
+  roughDrag: 0
+  sandDrag: 0
+  iceDrag: 0
+  noTerrainDrag: 0
 --- !u!114 &1554535359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,6 +631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   rigidBody: {fileID: 1554535360}
+  ballRenderer: {fileID: 0}
   inputTrailRenderer: {fileID: 1554535362}
   maxSafeSpeed: 0.05
   minMouseDiff: 2
