@@ -13,28 +13,50 @@ public class LevelManager : MonoBehaviour
     // Instance variables
     private int strokes = 0;
     private float time = 0f;
+    private bool pauseTimers = true;
 
     void Start() { }
 
     void Update()
     {
-        time += Time.deltaTime;
+        if (!pauseTimers)
+            time += Time.deltaTime;
     }
 
     public void addStroke()
     {
-        Debug.Log("LevelManager::addStroke() invoked");
         strokes++;
+        pauseTimers = false;
     }
 
     public void restartLevel()
     {
-        Debug.Log("LevelManager::restartLevel() invoked");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // TODO can totally restart without reloading scene but lazy
     }
 
     public void endLevel()
     {
-        Debug.Log("LevelManager::endLevel() invoked");   
+        pauseTimers = true;
+        if (strokes > par + GameConfig.instance.allowedOverPar)
+        {
+            // TODO init level failed screen
+            Debug.Log("Level Failed...");
+            return;
+        }
+
+        short starMask = GameConfig.NO_STAR_MASK;
+        if (strokes <= par)
+        {
+            starMask += GameConfig.FIRST_STAR_MASK;
+            if (strokes != par)
+                starMask += GameConfig.SECOND_STAR_MASK;
+        }
+        if (time <= timeToBeat)
+        {
+            starMask += GameConfig.THIRD_STAR_MASK;
+        }
+
+        // TODO init level complete screen and send starMask in event?
+        Debug.Log($"Level Complete!\nStrokes: {strokes}, Time: {time} seconds\nPar: {(starMask & GameConfig.FIRST_STAR_MASK) > 0}, Birdie: {(starMask & GameConfig.SECOND_STAR_MASK) > 0}, Beat Time: {(starMask & GameConfig.THIRD_STAR_MASK) > 0}");
     }
 }

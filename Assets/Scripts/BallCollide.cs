@@ -5,7 +5,6 @@ using UnityEngine.Events;
 public class BallCollide : MonoBehaviour
 {
     // Referenced components
-    public Transform ballTransform;
     public Rigidbody2D rigidBody;
     public CircleCollider2D ballCollider;
     public BallMove ballMove;
@@ -106,7 +105,7 @@ public class BallCollide : MonoBehaviour
 
     private void runFloorChecks()
     {
-        Collider2D collider = Physics2D.OverlapPoint(ballTransform.position, floorLayers);
+        Collider2D collider = Physics2D.OverlapPoint(rigidBody.position, floorLayers);
         if (collider == null)
             rigidBody.linearDamping = GameConfig.instance.noTerrainDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Green"))
@@ -120,7 +119,7 @@ public class BallCollide : MonoBehaviour
     }
     private void runSpecialFloorChecks()
     {
-        Collider2D collider = Physics2D.OverlapPoint(ballTransform.position, specialLayers);
+        Collider2D collider = Physics2D.OverlapPoint(rigidBody.position, specialLayers);
         if (collider == null)
             return;
 

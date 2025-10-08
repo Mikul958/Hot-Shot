@@ -584,8 +584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a7f12b24b62aa459089f435ca11f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  par: 0
-  timeToBeat: 0
+  par: 3
+  timeToBeat: 10
 --- !u!4 &526951319
 Transform:
   m_ObjectHideFlags: 0
@@ -902,13 +902,6 @@ MonoBehaviour:
   rigidBody: {fileID: 583057449}
   ballRenderer: {fileID: 583057450}
   inputTrailRenderer: {fileID: 583057455}
-  maxSafeSpeed: 0.05
-  minMouseDiff: 2
-  maxMouseDiff: 10
-  minHitSpeed: 0
-  maxHitSpeed: 20
-  trailStart: 0.25
-  maxTrailEnd: 8
 --- !u!114 &583057454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,22 +914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0512a3aa6217c2b419cdce0c74eb7f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  ballTransform: {fileID: 583057451}
   rigidBody: {fileID: 583057449}
   ballCollider: {fileID: 583057452}
   ballMove: {fileID: 583057453}
-  boostSpeed: 20
-  rampBoostSpeed: 10
-  rampScale: 0.5
-  rampHangtime: 0.3
-  boostCooldown: 1
-  outOfBoundsWait: 0.2
-  respawnWait: 1
-  greenDrag: 2
-  roughDrag: 5
-  sandDrag: 10
-  iceDrag: 1
-  noTerrainDrag: 0.5
 --- !u!120 &583057455
 LineRenderer:
   serializedVersion: 2

@@ -17,10 +17,10 @@ public class GameConfig : ScriptableObject
     // Level management constants
     [Header("Level Settings")]
     public int allowedOverPar = 3;  // Strokes allowed over par, level is failed if this is exceeded
-    public const short noStarMask = 0x0;
-    public const short oneStarMask = 0x1;
-    public const short twoStarMask = 0x2;
-    public const short threeStarMask = 0x4;
+    public const short NO_STAR_MASK = 0x0;
+    public const short FIRST_STAR_MASK = 0x1;
+    public const short SECOND_STAR_MASK = 0x2;
+    public const short THIRD_STAR_MASK = 0x4;
 
     // Ball movement constants
     [Space(10)]
