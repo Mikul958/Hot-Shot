@@ -29,6 +29,20 @@ public class LevelManager : MonoBehaviour
         pauseTimers = false;
     }
 
+    public void togglePause(bool display)
+    {
+        if (display)
+        {
+            Time.timeScale = 0f;
+            // TODO enable Pause Menu object
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            // TODO disable Pause Menu object
+        }
+    }
+
     public void restartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // TODO can totally restart without reloading scene but lazy
@@ -58,5 +72,15 @@ public class LevelManager : MonoBehaviour
 
         // TODO init level complete screen and send starMask in event?
         Debug.Log($"Level Complete!\nStrokes: {strokes}, Time: {time} seconds\nPar: {(starMask & GameConfig.FIRST_STAR_MASK) > 0}, Birdie: {(starMask & GameConfig.SECOND_STAR_MASK) > 0}, Beat Time: {(starMask & GameConfig.THIRD_STAR_MASK) > 0}");
+    }
+
+    public void showCompleteMenu()
+    {
+        
+    }
+    
+    public void showFailedMenu()
+    {
+        
     }
 }

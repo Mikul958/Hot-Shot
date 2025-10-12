@@ -4,18 +4,18 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public void openMainMenu()
+    public void goToMainMenu()
     {
         // TODO play sound
         SceneManager.LoadScene("Main Menu");
     }
-    public void openLevelSelect()
+    public void goToLevelSelect()
     {
         // TODO play sound
         SceneManager.LoadScene("Level Select");
     }
 
-    public void openSettings()
+    public void goToSettings()
     {
         // TODO play sound
         SceneManager.LoadScene("Settings");
@@ -27,16 +27,16 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void goTolevel(int level)
+    public void goToLevel(string levelName)
     {
         // TODO play sound
         try
         {
-            SceneManager.LoadScene("Level" + level);
+            SceneManager.LoadScene(levelName);
         }
         catch (Exception e)
         {
-            Debug.Log("Error navigating to level " + level + ": " + e.Message);
+            Debug.Log("Error navigating to level \"" + levelName + "\": " + e.Message);
         }
     }
 }
