@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using TMPro;
+using System;
+
 public class LevelManager : MonoBehaviour
 {
     // Referenced game objects / components
@@ -8,6 +11,9 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public GameObject levelFailedMenu;
     public GameObject backgroundDim;
+    public TextMeshProUGUI strokeText;
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI parText;
 
     // Level-specific constants, set in this component in game engine
     public int par;             // Par for the current level -- par awards one star, birdie awards 2
@@ -19,18 +25,27 @@ public class LevelManager : MonoBehaviour
     private bool pauseTimers = true;
     short starMask;
 
-    void Start() { }
+    void Start()
+    {
+        strokeText.text = "Strokes: " + strokes;
+        timeText.text = TimeSpan.FromSeconds((int)time).ToString(@"mm\:ss");
+        parText.text = "Par " + par;
+    }
 
     void Update()
     {
         if (!pauseTimers)
+        {
             time += Time.deltaTime;
+            timeText.text = TimeSpan.FromSeconds((int)time).ToString(@"mm\:ss");
+        }
     }
 
     public void addStroke()
     {
         strokes++;
-        pauseTimers = false;
+        strokeText.text = "Strokes: " + strokes;
+        pauseTimers = false;    // Remove timer pause from start of level
     }
 
     public void pauseGame()
@@ -99,7 +114,7 @@ public class LevelManager : MonoBehaviour
         backgroundDim.SetActive(true);
         levelCompleteMenu.SetActive(true);
     }
-    
+
     public void showFailedMenu()
     {
         backgroundDim.SetActive(true);
