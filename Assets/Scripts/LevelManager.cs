@@ -3,8 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    // Referenced components
-    // TODO
+    // Referenced game objects / components
+    public GameObject pauseMenu;
+    public GameObject levelCompleteMenu;
+    public GameObject levelFailedMenu;
+    public GameObject backgroundDim;
 
     // Level-specific constants, set in this component in game engine
     public int par;             // Par for the current level -- par awards one star, birdie awards 2
@@ -14,6 +17,7 @@ public class LevelManager : MonoBehaviour
     private int strokes = 0;
     private float time = 0f;
     private bool pauseTimers = true;
+    short starMask;
 
     void Start() { }
 
@@ -29,23 +33,39 @@ public class LevelManager : MonoBehaviour
         pauseTimers = false;
     }
 
-    public void togglePause(bool display)
+    public void pauseGame()
     {
-        if (display)
-        {
-            Time.timeScale = 0f;
-            // TODO enable Pause Menu object
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            // TODO disable Pause Menu object
-        }
+        Time.timeScale = 0f;
+        backgroundDim.SetActive(true);
+        pauseMenu.SetActive(true);
+    }
+
+    public void resumeGame()
+    {
+        Time.timeScale = 1f;
+        backgroundDim.SetActive(false);
+        pauseMenu.SetActive(false);
+    }
+
+    public void exitLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Level Select");
     }
 
     public void restartLevel()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // TODO can totally restart without reloading scene but lazy
+    }
+
+    public void nextLevel()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (sceneIndex + 1 < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(sceneIndex + 1);
+        else
+            exitLevel();
     }
 
     public void endLevel()
@@ -53,12 +73,11 @@ public class LevelManager : MonoBehaviour
         pauseTimers = true;
         if (strokes > par + GameConfig.instance.allowedOverPar)
         {
-            // TODO init level failed screen
-            Debug.Log("Level Failed...");
+            showFailedMenu();
             return;
         }
 
-        short starMask = GameConfig.NO_STAR_MASK;
+        starMask = GameConfig.NO_STAR_MASK;
         if (strokes <= par)
         {
             starMask += GameConfig.FIRST_STAR_MASK;
@@ -71,16 +90,19 @@ public class LevelManager : MonoBehaviour
         }
 
         // TODO init level complete screen and send starMask in event?
-        Debug.Log($"Level Complete!\nStrokes: {strokes}, Time: {time} seconds\nPar: {(starMask & GameConfig.FIRST_STAR_MASK) > 0}, Birdie: {(starMask & GameConfig.SECOND_STAR_MASK) > 0}, Beat Time: {(starMask & GameConfig.THIRD_STAR_MASK) > 0}");
+        showCompleteMenu(starMask);
     }
 
-    public void showCompleteMenu()
+    public void showCompleteMenu(short starMask)
     {
-        
+        // TODO implement stars in object and code
+        backgroundDim.SetActive(true);
+        levelCompleteMenu.SetActive(true);
     }
     
     public void showFailedMenu()
     {
-        
+        backgroundDim.SetActive(true);
+        levelFailedMenu.SetActive(true);
     }
 }
