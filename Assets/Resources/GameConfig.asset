@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527f94cc5296c8145aaf551acef68ba9, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: Assembly-CSharp::GlobalConfig
+  allowedOverPar: 3
+  maxSafeSpeed: 0.05
+  minHitSpeed: 0
+  maxHitSpeed: 20
+  minMouseDiff: 2
+  maxMouseDiff: 10
+  trailStart: 0.25
+  maxTrailEnd: 8
+  boostSpeed: 20
+  rampBoostSpeed: 10
+  addedRampScale: 0.5
+  rampHangtime: 0.3
+  boostCooldown: 1
+  outOfBoundsWait: 0.2
+  respawnWait: 1
+  greenDrag: 2
+  roughDrag: 5
+  veryRoughDrag: 10
+  iceDrag: 1
+  noTerrainDrag: 0.5
