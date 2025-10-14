@@ -1,27 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallCollide : MonoBehaviour
 {
     // Referenced components
-    public Transform ballTransform;
     public Rigidbody2D rigidBody;
     public CircleCollider2D ballCollider;
     public BallMove ballMove;
+    private LevelManager levelManager;
 
-    // Constants, set in game engine
-    public float boostSpeed;        // Speed boost panels attempt to apply in their direction
-    public float rampBoostSpeed;    // Speed ramps attempt to apply in their direction
-    public float rampScale;         // Additional visual scale applied to ball by ramp
-    public float rampHangtime;      // Amount of time ball stays at its peak, rise/fall phases take the same amount of time
-    public float boostCooldown;     // Minimum time allowed between two boost panel collisions (not ramps)
-    public float outOfBoundsWait;   // Time between touching OoB collision and being visibly counted out of bounds
-    public float respawnWait;       // Time it takes for the player to respawn after OoB is fully triggered
-    public float greenDrag;         // Drag applied when ball is on the default terrain
-    public float roughDrag;         // Drag applied when ball is on rough terrain
-    public float sandDrag;          // Drag applied when ball is on sand
-    public float iceDrag;           // Drag applied when ball is on ice
-    public float noTerrainDrag;     // Drag applied when ball is in the "air" or over out of bounds
+    // Frequenly-used global constants, obtained from GameConfig
+    private float configAddedRampScale;
+    private float configRampHangtime;
 
     // Instance variables
     private float boostTimer = 0f;
@@ -34,6 +25,11 @@ public class BallCollide : MonoBehaviour
 
     void Start()
     {
+        levelManager = FindFirstObjectByType<LevelManager>();
+
+        configAddedRampScale = GameConfig.instance.addedRampScale;
+        configRampHangtime = GameConfig.instance.rampHangtime;
+
         floorLayers = LayerMask.GetMask("Green", "Rough", "Sand", "Ice");
         specialLayers = LayerMask.GetMask("Hole", "Ramp", "Boost", "OutOfBounds");
     }
@@ -62,12 +58,12 @@ public class BallCollide : MonoBehaviour
 
         if (rampState == 1)
         {
-            float ballScale = 1 + rampScale * (rampHangtime - rampTimer) / rampHangtime;
+            float ballScale = 1 + configAddedRampScale * (configRampHangtime - rampTimer) / configRampHangtime;
             transform.localScale = new Vector3(ballScale, ballScale, 1);
         }
         else if (rampState == 3)
         {
-            float ballScale = 1 + rampScale * rampTimer / rampHangtime;
+            float ballScale = 1 + configAddedRampScale * rampTimer / configRampHangtime;
             transform.localScale = new Vector3(ballScale, ballScale, 1);
         }
 
@@ -82,7 +78,7 @@ public class BallCollide : MonoBehaviour
             else if (rampState != 0)
             {
                 rampState++;
-                rampTimer += rampHangtime;
+                rampTimer += configRampHangtime;
             }
         }
 
@@ -96,7 +92,7 @@ public class BallCollide : MonoBehaviour
                 // TODO play a water splash animation / sound?
                 ballMove.hideBall();
                 outOfBoundsState = 2;
-                outOfBoundsTimer += respawnWait;
+                outOfBoundsTimer += GameConfig.instance.respawnWait;
             }
             else if (outOfBoundsState == 2)
             {
@@ -109,21 +105,21 @@ public class BallCollide : MonoBehaviour
 
     private void runFloorChecks()
     {
-        Collider2D collider = Physics2D.OverlapPoint(ballTransform.position, floorLayers);
+        Collider2D collider = Physics2D.OverlapPoint(rigidBody.position, floorLayers);
         if (collider == null)
-            rigidBody.linearDamping = noTerrainDrag;
+            rigidBody.linearDamping = GameConfig.instance.noTerrainDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Green"))
-            rigidBody.linearDamping = greenDrag;
+            rigidBody.linearDamping = GameConfig.instance.greenDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Rough"))
-            rigidBody.linearDamping = roughDrag;
+            rigidBody.linearDamping = GameConfig.instance.roughDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Sand"))
-            rigidBody.linearDamping = sandDrag;
+            rigidBody.linearDamping = GameConfig.instance.veryRoughDrag;
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ice"))
-            rigidBody.linearDamping = iceDrag;
+            rigidBody.linearDamping = GameConfig.instance.iceDrag;
     }
     private void runSpecialFloorChecks()
     {
-        Collider2D collider = Physics2D.OverlapPoint(ballTransform.position, specialLayers);
+        Collider2D collider = Physics2D.OverlapPoint(rigidBody.position, specialLayers);
         if (collider == null)
             return;
 
@@ -134,12 +130,12 @@ public class BallCollide : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
             initiateRampJump();
-            ballMove.applyBoost(collider.transform.right, rampBoostSpeed);
+            ballMove.applyBoost(collider.transform.right, GameConfig.instance.rampBoostSpeed);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
         {
-            ballMove.applyBoost(collider.transform.right, boostSpeed);
-            boostTimer += boostCooldown;
+            ballMove.applyBoost(collider.transform.right, GameConfig.instance.boostSpeed);
+            boostTimer += GameConfig.instance.boostCooldown;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds") && outOfBoundsTimer == 0f)
         {
@@ -151,20 +147,20 @@ public class BallCollide : MonoBehaviour
     {
         // TODO I'll make this look at bit more natural if I have time
         ballMove.hideBall();
-        Debug.Log("Pretend I ended the level");  // TODO call level manager -> level complete
+        levelManager.endLevel();     // Notify level manager that the level has ended
         this.enabled = false;
     }
     private void initiateRampJump()
     {
-        rigidBody.linearDamping = noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
-        ballCollider.enabled = false;               // Disable collision with walls
+        rigidBody.linearDamping = GameConfig.instance.noTerrainDrag;    // Ensure drag from last terrain hit is cleared before collision checks are disabled
+        ballCollider.enabled = false;                                   // Disable collision with walls
         rampState = 1;
-        rampTimer = rampHangtime;
+        rampTimer = configRampHangtime;
     }
 
     private void initiateOutOfBounds()
     {
         outOfBoundsState = 1;
-        outOfBoundsTimer = outOfBoundsWait;
+        outOfBoundsTimer = GameConfig.instance.outOfBoundsWait;
     }
 }

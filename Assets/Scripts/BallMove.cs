@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class BallMove : MonoBehaviour
@@ -8,15 +9,16 @@ public class BallMove : MonoBehaviour
     public Rigidbody2D rigidBody;
     public SpriteRenderer ballRenderer;
     public LineRenderer inputTrailRenderer;
+    private LevelManager levelManager;
 
-    // Constants, set in game engine
-    public float maxSafeSpeed;      // If the ball is moving above this speed, inputs are disabled.
-    public float minMouseDiff;      // Minimum drag distance required for a hit.
-    public float maxMouseDiff;      // Maximum effective drag distance, further drag will not affect force.
-    public float minHitSpeed;       // Speed applied to the ball at a drag distance of minMouseDiff.
-    public float maxHitSpeed;       // Speed applied to the ball at a drag distance of maxMouseDiff.
-    public float trailStart;        // Distance from the center of the ball the input trail starts.
-    public float maxTrailEnd;       // End of the input trail at a drag distance of maxMouseDiff.
+    // Frequently-used global constants, obtained from GameConfig
+    private float maxSafeSpeed;
+    private float minHitSpeed;
+    private float maxHitSpeed;
+    private float minMouseDiff;
+    private float maxMouseDiff;
+    private float trailStart;
+    private float maxTrailEnd;
 
     // Instance variables
     private Vector2 mousePos;
@@ -24,7 +26,18 @@ public class BallMove : MonoBehaviour
     private bool isBallClicked = false;
     private Vector2 respawnPos;
 
-    void Start() { }
+    void Start()
+    {
+        levelManager = FindFirstObjectByType<LevelManager>();
+
+        maxSafeSpeed = GameConfig.instance.maxSafeSpeed;
+        minHitSpeed = GameConfig.instance.minHitSpeed;
+        maxHitSpeed = GameConfig.instance.maxHitSpeed;
+        minMouseDiff = GameConfig.instance.minMouseDiff;
+        maxMouseDiff = GameConfig.instance.maxMouseDiff;
+        trailStart = GameConfig.instance.trailStart;
+        maxTrailEnd = GameConfig.instance.maxTrailEnd;
+    }
 
     void Update()
     {
@@ -74,7 +87,7 @@ public class BallMove : MonoBehaviour
         Vector2 resultVelocity = mapMouseDifferenceToVelocity(mousePos - rigidBody.position);
         if (resultVelocity != Vector2.zero)
         {
-            Debug.Log("Pretend I added a stroke to the counter");  // TODO notify level manager
+            levelManager.addStroke();   // Notify level manager that the ball has been hit
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
         }
