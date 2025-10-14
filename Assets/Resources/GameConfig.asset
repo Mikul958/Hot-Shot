@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlobalConfig
   allowedOverPar: 3
   maxSafeSpeed: 0.05
-  minHitSpeed: 0
-  maxHitSpeed: 30
-  minMouseDiff: 2
+  minHitSpeed: 5
+  maxHitSpeed: 35
+  minMouseDiff: 0.5
   maxMouseDiff: 10
   trailStart: 0.25
   maxTrailEnd: 8
-  boostSpeed: 20
-  rampBoostSpeed: 10
+  boostSpeed: 30
+  rampBoostSpeed: 20
   addedRampScale: 0.5
-  rampHangtime: 0.3
+  rampHangtime: 0.2
   boostCooldown: 1
   outOfBoundsWait: 0.2
   respawnWait: 1
-  greenDrag: 2
-  roughDrag: 5
+  greenDrag: 1
+  roughDrag: 3
   veryRoughDrag: 10
-  iceDrag: 1
+  iceDrag: 0.75
   noTerrainDrag: 0.5
