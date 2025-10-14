@@ -260,6 +260,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4734762911232476713, guid: b6aaed810ac968748ba8b1f1025ac4ef, type: 3}
   m_PrefabInstance: {fileID: 1416308971}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &301797935
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.96748
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -66.34367
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6930566199465103299, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680069361562374346, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f08a07a6813c8b4394e76573b1e8c94, type: 3}
 --- !u!1 &366707794
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +328,7 @@ GameObject:
   - component: {fileID: 366707795}
   - component: {fileID: 366707798}
   - component: {fileID: 366707797}
+  - component: {fileID: 366707799}
   m_Layer: 6
   m_Name: Water
   m_TagString: Untagged
@@ -183212,6 +183270,44 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &366707799
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366707794}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &432239645
 GameObject:
   m_ObjectHideFlags: 0
@@ -188689,6 +188785,7 @@ GameObject:
   - component: {fileID: 1610580904}
   - component: {fileID: 1610580903}
   - component: {fileID: 1610580902}
+  - component: {fileID: 1610580905}
   m_Layer: 13
   m_Name: Wall
   m_TagString: Untagged
@@ -190338,6 +190435,19 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1610580905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610580900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 837051c117a01e147bca241d3c8c5a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallCollide
+  tilemapCollider: {fileID: 1610580902}
 --- !u!1 &1667377219
 GameObject:
   m_ObjectHideFlags: 0
@@ -190429,3 +190539,4 @@ SceneRoots:
   - {fileID: 488523703}
   - {fileID: 808897743}
   - {fileID: 18969432}
+  - {fileID: 301797935}
