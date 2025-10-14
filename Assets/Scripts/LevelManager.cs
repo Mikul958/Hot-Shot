@@ -51,6 +51,7 @@ public class LevelManager : MonoBehaviour
     public void pauseGame()
     {
         Time.timeScale = 0f;
+        FindObjectOfType<AudioManager>().Play("Button");
         backgroundDim.SetActive(true);
         pauseMenu.SetActive(true);
     }
@@ -58,6 +59,7 @@ public class LevelManager : MonoBehaviour
     public void resumeGame()
     {
         Time.timeScale = 1f;
+        FindObjectOfType<AudioManager>().Play("Button");
         backgroundDim.SetActive(false);
         pauseMenu.SetActive(false);
     }
@@ -65,18 +67,21 @@ public class LevelManager : MonoBehaviour
     public void exitLevel()
     {
         Time.timeScale = 1f;
+        FindObjectOfType<AudioManager>().Play("Button");
         SceneManager.LoadScene("Level Select");
     }
 
     public void restartLevel()
     {
         Time.timeScale = 1f;
+        FindObjectOfType<AudioManager>().Play("Button");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // TODO can totally restart without reloading scene but lazy
     }
 
     public void nextLevel()
     {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        FindObjectOfType<AudioManager>().Play("Button");
         if (sceneIndex + 1 < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadScene(sceneIndex + 1);
         else
