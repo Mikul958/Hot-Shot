@@ -132,6 +132,7 @@ public class BallCollide : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
             initiateRampJump();
+            audioManager.Play("Speed_boost");
             ballMove.applyBoost(collider.transform.right, GameConfig.instance.rampBoostSpeed);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
