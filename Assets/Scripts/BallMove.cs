@@ -90,6 +90,7 @@ public class BallMove : MonoBehaviour
             levelManager.addStroke();   // Notify level manager that the ball has been hit
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
+            FindObjectOfType<AudioManager>().Play("Putter");
         }
     }
 

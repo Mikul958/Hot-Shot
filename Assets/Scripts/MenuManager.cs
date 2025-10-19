@@ -6,30 +6,30 @@ public class MenuManager : MonoBehaviour
 {
     public void goToMainMenu()
     {
-        // TODO play sound
+        FindObjectOfType<AudioManager>().Play("Button");
         SceneManager.LoadScene("Main Menu");
     }
     public void goToLevelSelect()
     {
-        // TODO play sound
+        FindObjectOfType<AudioManager>().Play("Button");
         SceneManager.LoadScene("Level Select");
     }
 
     public void goToSettings()
     {
-        // TODO play sound
+        FindObjectOfType<AudioManager>().Play("Button");
         SceneManager.LoadScene("Settings");
     }
 
     public void exitGame()
     {
-        // TODO play sound
+        FindObjectOfType<AudioManager>().Play("Button");
         Application.Quit();
     }
 
     public void goToLevel(string levelName)
     {
-        // TODO play sound
+        FindObjectOfType<AudioManager>().Play("Button");
         try
         {
             SceneManager.LoadScene(levelName);
