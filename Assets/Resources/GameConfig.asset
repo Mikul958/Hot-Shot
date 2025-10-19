@@ -15,7 +15,7 @@ MonoBehaviour:
   allowedOverPar: 3
   maxSafeSpeed: 0.05
   minHitSpeed: 0
-  maxHitSpeed: 20
+  maxHitSpeed: 30
   minMouseDiff: 2
   maxMouseDiff: 10
   trailStart: 0.25

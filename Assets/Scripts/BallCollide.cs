@@ -31,7 +31,7 @@ public class BallCollide : MonoBehaviour
         configRampHangtime = GameConfig.instance.rampHangtime;
 
         floorLayers = LayerMask.GetMask("Green", "Rough", "Sand", "Ice");
-        specialLayers = LayerMask.GetMask("Hole", "Ramp", "Boost", "OutOfBounds");
+        specialLayers = LayerMask.GetMask("Hole", "Ramp", "Boost", "OutOfBounds", "Wall");
     }
 
     void Update()
@@ -89,7 +89,7 @@ public class BallCollide : MonoBehaviour
             outOfBoundsTimer = 0f;
             if (outOfBoundsState == 1)
             {
-                // TODO play a water splash animation / sound?
+                FindObjectOfType<AudioManager>().Play("Water_splash");
                 ballMove.hideBall();
                 outOfBoundsState = 2;
                 outOfBoundsTimer += GameConfig.instance.respawnWait;
@@ -135,6 +135,7 @@ public class BallCollide : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
         {
             ballMove.applyBoost(collider.transform.right, GameConfig.instance.boostSpeed);
+            FindObjectOfType<AudioManager>().Play("Speed_boost");
             boostTimer += GameConfig.instance.boostCooldown;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds") && outOfBoundsTimer == 0f)
@@ -147,6 +148,7 @@ public class BallCollide : MonoBehaviour
     {
         // TODO I'll make this look at bit more natural if I have time
         ballMove.hideBall();
+        FindObjectOfType<AudioManager>().Play("Hole");
         levelManager.endLevel();     // Notify level manager that the level has ended
         this.enabled = false;
     }
