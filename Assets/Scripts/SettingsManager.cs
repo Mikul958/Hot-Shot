@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
-    public SettingsData settingsData;
-
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider soundSlider;
     [SerializeField] private Image selectionIndicator;
@@ -14,13 +12,13 @@ public class SettingsManager : MonoBehaviour
     {        
         selectionIndicator.rectTransform.anchoredPosition = new Vector2(0, 0);
         
-        musicSlider.value = settingsData.musicVolume;
-        soundSlider.value = settingsData.soundVolume;
+        musicSlider.value = SettingsData.instance.musicVolume;
+        soundSlider.value = SettingsData.instance.soundVolume;
 
         bool foundColor = false;
-        foreach (SettingsData.SettingsButton button in settingsData.settingsButtons)
+        foreach (SettingsData.SettingsButton button in SettingsData.instance.settingsButtons)
         {
-            if (settingsData.ballColor == button.color)
+            if (SettingsData.instance.ballColor == button.color)
             {
                 selectionIndicator.rectTransform.anchoredPosition = new Vector2(button.xPosition, 0);
                 foundColor = true;
@@ -29,29 +27,29 @@ public class SettingsManager : MonoBehaviour
         }
         if (!foundColor)
         {
-            settingsData.ballColor = "FFFFFFFF";
+            SettingsData.instance.ballColor = "FFFFFFFF";
             selectionIndicator.rectTransform.anchoredPosition = new Vector2(-260, 0);
         }
     }
 
     public void OnBallColorClicked(int buttonIndex)
     {
-        settingsData.ballColor = settingsData.settingsButtons[buttonIndex].color;
-        selectionIndicator.rectTransform.anchoredPosition = new Vector2(settingsData.settingsButtons[buttonIndex].xPosition, 0);
+        SettingsData.instance.ballColor = SettingsData.instance.settingsButtons[buttonIndex].color;
+        selectionIndicator.rectTransform.anchoredPosition = new Vector2(SettingsData.instance.settingsButtons[buttonIndex].xPosition, 0);
     }
     
     public void OnMusicSliderChanged(float newVolume)
     {
-        settingsData.musicVolume = newVolume;
+        SettingsData.instance.musicVolume = newVolume;
     }
 
     public void OnSFXSliderChanged(float newVolume)
     {
-        settingsData.soundVolume = newVolume;
+        SettingsData.instance.soundVolume = newVolume;
     }
 
     public void triggerSettingsSave()
     {
-        settingsData.saveSettingsData();
+        SettingsData.instance.saveSettingsData();
     }
 }

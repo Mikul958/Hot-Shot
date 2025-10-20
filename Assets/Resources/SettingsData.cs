@@ -5,7 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SettingsData", menuName = "Scriptable Objects/SettingsData")]
 public class SettingsData : ScriptableObject
 {
-    private String settingsPath;
+    private static SettingsData _instance;
+    public static SettingsData instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = Resources.Load<SettingsData>("SettingsData");
+            return _instance;
+        }
+    }
 
     public class SettingsButton
     {
@@ -19,6 +28,9 @@ public class SettingsData : ScriptableObject
         }
     }
 
+    private String settingsPath;
+
+    // This is some horrific code LOL trust me I was low on time
     public SettingsButton[] settingsButtons = {
         new SettingsButton(-260, "#FFFFFFFF"),
         new SettingsButton(-130, "#DD0909FF"),
@@ -63,8 +75,6 @@ public class SettingsData : ScriptableObject
 
         string settingsJSON = File.ReadAllText(settingsPath);
         JsonUtility.FromJsonOverwrite(settingsJSON, this);
-
-        Debug.Log($"Loaded Settings: {_musicVolume}, {_soundVolume}, {_ballColor}");
     }
 
     public void saveSettingsData()
