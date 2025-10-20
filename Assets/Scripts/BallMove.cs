@@ -10,7 +10,6 @@ public class BallMove : MonoBehaviour
     public SpriteRenderer ballRenderer;
     public LineRenderer inputTrailRenderer;
     private LevelManager levelManager;
-    private AudioManager audioManager;
 
     // Frequently-used global constants, obtained from GameConfig
     private float maxSafeSpeed;
@@ -30,7 +29,6 @@ public class BallMove : MonoBehaviour
     void Start()
     {
         levelManager = FindFirstObjectByType<LevelManager>();
-        audioManager = FindFirstObjectByType<AudioManager>();
         initializeBallColor();
 
         maxSafeSpeed = GameConfig.instance.maxSafeSpeed;
@@ -102,7 +100,7 @@ public class BallMove : MonoBehaviour
             levelManager.addStroke();   // Notify level manager that the ball has been hit
             respawnPos = rigidBody.position;
             rigidBody.linearVelocity += resultVelocity;
-            audioManager.Play("Putter");
+            AudioManager.instance.Play("Putter");
         }
     }
 

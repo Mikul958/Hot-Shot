@@ -29,11 +29,13 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void goToLevel(string levelName)
+    public void goToLevel(int levelNumber)
     {
         AudioManager.instance.Play("Button");
+        string levelName = "Level" + levelNumber;
         try
         {
+            LevelData.instance.setCurrentLevel(levelNumber);
             SceneManager.LoadScene(levelName);
         }
         catch (Exception e)

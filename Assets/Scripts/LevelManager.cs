@@ -68,6 +68,7 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioManager.instance.Play("Button");
+        LevelData.instance.unsetCurrentLevel();
         SceneManager.LoadScene("Level Select");
     }
 
@@ -80,10 +81,9 @@ public class LevelManager : MonoBehaviour
 
     public void nextLevel()
     {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         AudioManager.instance.Play("Button");
-        if (sceneIndex + 1 < SceneManager.sceneCountInBuildSettings)
-            SceneManager.LoadScene(sceneIndex + 1);
+        if (LevelData.instance.incrementCurrentLevelOrExit())
+            SceneManager.LoadScene("Level" + LevelData.instance.currentLevel);
         else
             exitLevel();
     }
@@ -110,6 +110,7 @@ public class LevelManager : MonoBehaviour
         }
 
         // TODO init level complete screen and send starMask in event?
+        LevelData.instance.updateCurrentLevelData(strokes, (int)time, starMask);
         showCompleteMenu(starMask);
     }
 
