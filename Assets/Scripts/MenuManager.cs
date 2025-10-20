@@ -4,10 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    public LevelData levelData;
+    public SettingsData settingsData;
     private AudioManager audioManager;
 
     void Start()
     {
+        Debug.Log("Attempting to find audio manager");
         audioManager = FindFirstObjectByType<AudioManager>();
     }
     public void goToMainMenu()
@@ -23,6 +26,8 @@ public class MenuManager : MonoBehaviour
 
     public void goToSettings()
     {
+        if (audioManager == null)
+            Debug.Log("Audio Manager is null");
         audioManager.Play("Button");
         SceneManager.LoadScene("Settings");
     }
@@ -44,5 +49,20 @@ public class MenuManager : MonoBehaviour
         {
             Debug.Log("Error navigating to level \"" + levelName + "\": " + e.Message);
         }
+    }
+
+    public void OnMusicSliderChanged(float newVolume)
+    {
+        settingsData.musicVolume = newVolume;
+    }
+
+    public void OnSFXSliderChanged(float newVolume)
+    {
+        settingsData.soundVolume = newVolume;
+    }
+
+    public void triggerSettingsSave()
+    {
+        settingsData.saveSettingsData();
     }
 }

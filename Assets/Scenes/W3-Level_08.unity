@@ -187754,7 +187754,6 @@ GameObject:
   - component: {fileID: 1610580904}
   - component: {fileID: 1610580903}
   - component: {fileID: 1610580902}
-  - component: {fileID: 1610580905}
   - component: {fileID: 1610580907}
   - component: {fileID: 1610580906}
   m_Layer: 13
@@ -190928,19 +190927,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1610580905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610580900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 837051c117a01e147bca241d3c8c5a01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WallCollide
-  tilemapCollider: {fileID: 1610580902}
 --- !u!66 &1610580906
 CompositeCollider2D:
   m_ObjectHideFlags: 0
@@ -191883,6 +191869,10 @@ PrefabInstance:
     - target: {fileID: 2512656583879546380, guid: 2318ab93f06b33146aca7b8ea0430810, type: 3}
       propertyPath: m_Name
       value: Golf Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486779989692939904, guid: 2318ab93f06b33146aca7b8ea0430810, type: 3}
+      propertyPath: orthographic size
+      value: 8.25
       objectReference: {fileID: 0}
     - target: {fileID: 7188845284092795578, guid: 2318ab93f06b33146aca7b8ea0430810, type: 3}
       propertyPath: m_LocalPosition.x

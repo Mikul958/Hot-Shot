@@ -3,16 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class LoadManager : MonoBehaviour
 {
+    public LevelData levelData;
+    public SettingsData settingsData;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // TODO call gamedata scriptable object for settings and savadata load
+        //levelData.loadLevelData();
+        //settingsData.loadSettingsData();
         SceneManager.LoadScene("Main Menu");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
