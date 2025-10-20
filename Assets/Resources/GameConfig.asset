@@ -17,7 +17,7 @@ MonoBehaviour:
   minHitSpeed: 5
   maxHitSpeed: 35
   minMouseDiff: 0.5
-  maxMouseDiff: 10
+  maxMouseDiff: 6
   trailStart: 0.25
   maxTrailEnd: 8
   boostSpeed: 30

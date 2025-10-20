@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Golf Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 6486779989692939904, guid: 2318ab93f06b33146aca7b8ea0430810, type: 3}
+      propertyPath: orthographic size
+      value: 8.625
+      objectReference: {fileID: 0}
     - target: {fileID: 7188845284092795578, guid: 2318ab93f06b33146aca7b8ea0430810, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.14
@@ -186291,11 +186295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9024723015431396168, guid: 374fb7661ebb27a4e9597cb07c2d7ccd, type: 3}
       propertyPath: par
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9024723015431396168, guid: 374fb7661ebb27a4e9597cb07c2d7ccd, type: 3}
       propertyPath: timeToBeat
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9060400366430600759, guid: 374fb7661ebb27a4e9597cb07c2d7ccd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -190346,7 +190350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837051c117a01e147bca241d3c8c5a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WallCollide
-  tilemapCollider: {fileID: 1610580902}
 --- !u!66 &1610580906
 CompositeCollider2D:
   m_ObjectHideFlags: 0
