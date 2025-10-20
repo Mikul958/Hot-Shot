@@ -31,6 +31,7 @@ public class BallMove : MonoBehaviour
     {
         levelManager = FindFirstObjectByType<LevelManager>();
         audioManager = FindFirstObjectByType<AudioManager>();
+        initializeBallColor();
 
         maxSafeSpeed = GameConfig.instance.maxSafeSpeed;
         minHitSpeed = GameConfig.instance.minHitSpeed;
@@ -46,7 +47,16 @@ public class BallMove : MonoBehaviour
         handlePlayerInput();
     }
 
-    public void handlePlayerInput()
+    private void initializeBallColor()
+    {
+        SettingsData playerSettings = Resources.Load<SettingsData>("SettingsData");
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Color ballColor;
+        if (ColorUtility.TryParseHtmlString(playerSettings.ballColor, out ballColor))
+            spriteRenderer.color = ballColor;
+    }
+
+    private void handlePlayerInput()
     {
         // Ignore player input if ball is moving too fast
         if (!inputEnabled || rigidBody.linearVelocity.magnitude > maxSafeSpeed)

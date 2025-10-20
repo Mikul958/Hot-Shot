@@ -6,6 +6,26 @@ using UnityEngine;
 public class SettingsData : ScriptableObject
 {
     private String settingsPath;
+
+    public class SettingsButton
+    {
+        public float xPosition;
+        public string color;
+
+        public SettingsButton(float xPosition, string color)
+        {
+            this.xPosition = xPosition;
+            this.color = color;
+        }
+    }
+
+    public SettingsButton[] settingsButtons = {
+        new SettingsButton(-260, "#FFFFFFFF"),
+        new SettingsButton(-130, "#DD0909FF"),
+        new SettingsButton(0, "#3651FFFF"),
+        new SettingsButton(130, "119F00FF"),
+        new SettingsButton(260, "#8B06FDFF")
+    };
     
     [SerializeField] private float _musicVolume;
     public float musicVolume
@@ -30,6 +50,7 @@ public class SettingsData : ScriptableObject
         _soundVolume = 1f;
         _ballColor = "#FFFFFF";
         settingsPath = Path.Combine(Application.persistentDataPath, "settings.json");
+        loadSettingsData();
     }
 
     public void loadSettingsData()

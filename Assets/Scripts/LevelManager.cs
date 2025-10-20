@@ -14,7 +14,6 @@ public class LevelManager : MonoBehaviour
     public TextMeshProUGUI strokeText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI parText;
-    private AudioManager audioManager;
 
     // Level-specific constants, set in this component in game engine
     public int par;             // Par for the current level -- par awards one star, birdie awards 2
@@ -28,7 +27,6 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        audioManager = FindFirstObjectByType<AudioManager>();
         strokeText.text = "Strokes: " + strokes;
         timeText.text = TimeSpan.FromSeconds((int)time).ToString(@"mm\:ss");
         parText.text = "Par " + par;
@@ -53,7 +51,7 @@ public class LevelManager : MonoBehaviour
     public void pauseGame()
     {
         Time.timeScale = 0f;
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         backgroundDim.SetActive(true);
         pauseMenu.SetActive(true);
     }
@@ -61,7 +59,7 @@ public class LevelManager : MonoBehaviour
     public void resumeGame()
     {
         Time.timeScale = 1f;
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         backgroundDim.SetActive(false);
         pauseMenu.SetActive(false);
     }
@@ -69,21 +67,21 @@ public class LevelManager : MonoBehaviour
     public void exitLevel()
     {
         Time.timeScale = 1f;
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         SceneManager.LoadScene("Level Select");
     }
 
     public void restartLevel()
     {
         Time.timeScale = 1f;
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // TODO can totally restart without reloading scene but lazy
     }
 
     public void nextLevel()
     {
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         if (sceneIndex + 1 < SceneManager.sceneCountInBuildSettings)
             SceneManager.LoadScene(sceneIndex + 1);
         else

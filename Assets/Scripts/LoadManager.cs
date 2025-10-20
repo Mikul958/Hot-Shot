@@ -9,8 +9,8 @@ public class LoadManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //levelData.loadLevelData();
-        //settingsData.loadSettingsData();
+        levelData.loadLevelData();
+        settingsData.loadSettingsData();
         SceneManager.LoadScene("Main Menu");
     }
 }
