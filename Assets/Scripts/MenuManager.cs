@@ -4,32 +4,38 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    private AudioManager audioManager;
+
+    void Start()
+    {
+        audioManager = FindFirstObjectByType<AudioManager>();
+    }
     public void goToMainMenu()
     {
-        FindObjectOfType<AudioManager>().Play("Button");
+        audioManager.Play("Button");
         SceneManager.LoadScene("Main Menu");
     }
     public void goToLevelSelect()
     {
-        FindObjectOfType<AudioManager>().Play("Button");
+        audioManager.Play("Button");
         SceneManager.LoadScene("Level Select");
     }
 
     public void goToSettings()
     {
-        FindObjectOfType<AudioManager>().Play("Button");
+        audioManager.Play("Button");
         SceneManager.LoadScene("Settings");
     }
 
     public void exitGame()
     {
-        FindObjectOfType<AudioManager>().Play("Button");
+        audioManager.Play("Button");
         Application.Quit();
     }
 
     public void goToLevel(string levelName)
     {
-        FindObjectOfType<AudioManager>().Play("Button");
+        audioManager.Play("Button");
         try
         {
             SceneManager.LoadScene(levelName);
