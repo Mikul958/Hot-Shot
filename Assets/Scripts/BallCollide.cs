@@ -46,6 +46,11 @@ public class BallCollide : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        audioManager.Play("Rock_bounce");
+    }
+
     private void updateTimers()
     {
         // Decrement boostTimer
