@@ -180882,7 +180882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9024723015431396168, guid: 374fb7661ebb27a4e9597cb07c2d7ccd, type: 3}
       propertyPath: par
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9024723015431396168, guid: 374fb7661ebb27a4e9597cb07c2d7ccd, type: 3}
       propertyPath: timeToBeat
