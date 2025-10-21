@@ -4,40 +4,38 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    private AudioManager audioManager;
+    public LevelData levelData;
 
-    void Start()
-    {
-        audioManager = FindFirstObjectByType<AudioManager>();
-    }
     public void goToMainMenu()
     {
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         SceneManager.LoadScene("Main Menu");
     }
     public void goToLevelSelect()
     {
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         SceneManager.LoadScene("Level Select");
     }
 
     public void goToSettings()
     {
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         SceneManager.LoadScene("Settings");
     }
 
     public void exitGame()
     {
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
         Application.Quit();
     }
 
-    public void goToLevel(string levelName)
+    public void goToLevel(int levelNumber)
     {
-        audioManager.Play("Button");
+        AudioManager.instance.Play("Button");
+        string levelName = "Level" + levelNumber;
         try
         {
+            LevelData.instance.setCurrentLevel(levelNumber);
             SceneManager.LoadScene(levelName);
         }
         catch (Exception e)

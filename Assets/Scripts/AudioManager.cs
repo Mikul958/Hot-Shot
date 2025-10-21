@@ -2,11 +2,9 @@ using UnityEngine.Audio;
 using System;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
-
-
+public class AudioManager : MonoBehaviour
+{
     public Sound[] sounds;
-
     public static AudioManager instance;
 
     void Awake () {
@@ -14,14 +12,13 @@ public class AudioManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
             return;
         }
-
-        DontDestroyOnLoad(gameObject);
 
         foreach (Sound s in sounds)
         {

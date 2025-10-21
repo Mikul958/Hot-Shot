@@ -9,7 +9,6 @@ public class BallCollide : MonoBehaviour
     public CircleCollider2D ballCollider;
     public BallMove ballMove;
     private LevelManager levelManager;
-    private AudioManager audioManager;
 
     // Frequenly-used global constants, obtained from GameConfig
     private float configAddedRampScale;
@@ -27,7 +26,6 @@ public class BallCollide : MonoBehaviour
     void Start()
     {
         levelManager = FindFirstObjectByType<LevelManager>();
-        audioManager = FindFirstObjectByType<AudioManager>();
 
         configAddedRampScale = GameConfig.instance.addedRampScale;
         configRampHangtime = GameConfig.instance.rampHangtime;
@@ -48,7 +46,7 @@ public class BallCollide : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        audioManager.Play("Rock_bounce");
+        AudioManager.instance.Play("Rock_bounce");
     }
 
     private void updateTimers()
@@ -96,7 +94,7 @@ public class BallCollide : MonoBehaviour
             outOfBoundsTimer = 0f;
             if (outOfBoundsState == 1)
             {
-                audioManager.Play("Water_splash");
+                AudioManager.instance.Play("Water_splash");
                 ballMove.hideBall();
                 outOfBoundsState = 2;
                 outOfBoundsTimer += GameConfig.instance.respawnWait;
@@ -137,13 +135,13 @@ public class BallCollide : MonoBehaviour
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Ramp"))
         {
             initiateRampJump();
-            audioManager.Play("Speed_boost");
+            AudioManager.instance.Play("Speed_boost");
             ballMove.applyBoost(collider.transform.right, GameConfig.instance.rampBoostSpeed);
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("Boost") && boostTimer == 0f)
         {
             ballMove.applyBoost(collider.transform.right, GameConfig.instance.boostSpeed);
-            audioManager.Play("Speed_boost");
+            AudioManager.instance.Play("Speed_boost");
             boostTimer += GameConfig.instance.boostCooldown;
         }
         else if (collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds") && outOfBoundsTimer == 0f)
@@ -156,7 +154,7 @@ public class BallCollide : MonoBehaviour
     {
         // TODO I'll make this look at bit more natural if I have time
         ballMove.hideBall();
-        audioManager.Play("Hole");
+        AudioManager.instance.Play("Hole");
         levelManager.endLevel();     // Notify level manager that the level has ended
         this.enabled = false;
     }
