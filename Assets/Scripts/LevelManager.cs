@@ -133,7 +133,6 @@ public class LevelManager : MonoBehaviour
 
     public void showCompleteMenu(short starMask)
     {
-        // TODO implement stars in object and code
         backgroundDim.SetActive(true);
         levelCompleteMenu.SetActive(true);
     }

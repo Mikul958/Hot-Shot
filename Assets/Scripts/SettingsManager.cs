@@ -34,6 +34,7 @@ public class SettingsManager : MonoBehaviour
 
     public void OnBallColorClicked(int buttonIndex)
     {
+        AudioManager.instance.Play("Button");
         SettingsData.instance.ballColor = SettingsData.instance.settingsButtons[buttonIndex].color;
         selectionIndicator.rectTransform.anchoredPosition = new Vector2(SettingsData.instance.settingsButtons[buttonIndex].xPosition, 0);
     }
