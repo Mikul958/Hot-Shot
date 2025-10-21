@@ -9,7 +9,7 @@ public class SettingsManager : MonoBehaviour
     
 
     public void Start()
-    {        
+    {
         selectionIndicator.rectTransform.anchoredPosition = new Vector2(0, 0);
         
         musicSlider.value = SettingsData.instance.musicVolume;
@@ -42,11 +42,13 @@ public class SettingsManager : MonoBehaviour
     public void OnMusicSliderChanged(float newVolume)
     {
         SettingsData.instance.musicVolume = newVolume;
+        AudioManager.instance.setMusicVolume(newVolume);
     }
 
     public void OnSFXSliderChanged(float newVolume)
     {
         SettingsData.instance.soundVolume = newVolume;
+        AudioManager.instance.setSoundVolume(newVolume);
     }
 
     public void triggerSettingsSave()
