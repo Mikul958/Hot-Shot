@@ -20,14 +20,17 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        foreach (Sound s in sounds)
+        foreach (Sound sound in sounds)
         {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
+            sound.source = gameObject.AddComponent<AudioSource>();
+            sound.source.clip = sound.clip;
+            sound.source.volume = sound.volume;
+            sound.source.pitch = sound.pitch;
+            sound.source.loop = sound.loop;
         }
+
+        setMusicVolume(SettingsData.instance.musicVolume);
+        setSoundVolume(SettingsData.instance.soundVolume);
     }
 
     void Start ()
@@ -54,7 +57,20 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.volume = volume;
+        s.source.volume = volume;
     }
-    
 
+    public void setMusicVolume(float newVolume)
+    {
+        UpdateVolume("Background_Music", newVolume);
+    }
+    public void setSoundVolume(float newVolume)
+    {
+        UpdateVolume("Rock_bounce", newVolume);
+        UpdateVolume("Hole", newVolume);
+        UpdateVolume("Button", newVolume);
+        UpdateVolume("Putter", newVolume);
+        UpdateVolume("Water_splash", newVolume);
+        UpdateVolume("Speed_boost", newVolume);
+    }
 }

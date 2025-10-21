@@ -9,11 +9,11 @@ public class SettingsManager : MonoBehaviour
     
 
     public void Start()
-    {        
+    {
         selectionIndicator.rectTransform.anchoredPosition = new Vector2(0, 0);
         
-        musicSlider.value = 1f;
-        soundSlider.value = 1f;
+        musicSlider.value = SettingsData.instance.musicVolume;
+        soundSlider.value = SettingsData.instance.soundVolume;
 
         bool foundColor = false;
         foreach (SettingsData.SettingsButton button in SettingsData.instance.settingsButtons)
@@ -42,18 +42,13 @@ public class SettingsManager : MonoBehaviour
     public void OnMusicSliderChanged(float newVolume)
     {
         SettingsData.instance.musicVolume = newVolume;
-        AudioManager.instance.UpdateVolume("Background_Music", newVolume);
+        AudioManager.instance.setMusicVolume(newVolume);
     }
 
     public void OnSFXSliderChanged(float newVolume)
     {
         SettingsData.instance.soundVolume = newVolume;
-        AudioManager.instance.UpdateVolume("Rock_bounce", newVolume);
-        AudioManager.instance.UpdateVolume("Hole", newVolume);
-        AudioManager.instance.UpdateVolume("Button", newVolume);
-        AudioManager.instance.UpdateVolume("Putter", newVolume);
-        AudioManager.instance.UpdateVolume("Water_splash", newVolume);
-        AudioManager.instance.UpdateVolume("Speed_boost", newVolume);
+        AudioManager.instance.setSoundVolume(newVolume);
     }
 
     public void triggerSettingsSave()
