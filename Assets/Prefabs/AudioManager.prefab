@@ -72,7 +72,7 @@ MonoBehaviour:
   - name: Speed_boost
     clip: {fileID: 8300000, guid: c97b8773a021e274eb2f926a799a8ceb, type: 3}
     volume: 1
-    pitch: 1
+    pitch: 0.818
     loop: 0
     source: {fileID: 0}
   - name: Water_splash
