@@ -21,6 +21,7 @@ public class GameConfig : ScriptableObject
     public const short FIRST_STAR_MASK = 0x1;
     public const short SECOND_STAR_MASK = 0x2;
     public const short THIRD_STAR_MASK = 0x4;
+    public const string STAR_HIGHLIGHT_HEX = "#FFDD12FF";
 
     // Ball movement constants
     [Space(10)]

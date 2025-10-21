@@ -35,7 +35,7 @@ public class SettingsData : ScriptableObject
         new SettingsButton(-260, "#FFFFFFFF"),
         new SettingsButton(-130, "#DD0909FF"),
         new SettingsButton(0, "#3651FFFF"),
-        new SettingsButton(130, "119F00FF"),
+        new SettingsButton(130, "#119F00FF"),
         new SettingsButton(260, "#8B06FDFF")
     };
     

@@ -1,8 +1,8 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-using TMPro;
-using System;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -97,19 +97,36 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        GameObject[] starRefs = new GameObject[3];
+        foreach (GameObject gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+        {
+            if (gameObject.CompareTag("star-1"))
+                starRefs[0] = gameObject;
+            else if (gameObject.CompareTag("star-2"))
+                starRefs[1] = gameObject;
+            else if (gameObject.CompareTag("star-3"))
+                starRefs[2] = gameObject;
+        }
+
         starMask = GameConfig.NO_STAR_MASK;
+        Color highlightColor;
+        ColorUtility.TryParseHtmlString(GameConfig.STAR_HIGHLIGHT_HEX, out highlightColor);
         if (strokes <= par)
         {
             starMask += GameConfig.FIRST_STAR_MASK;
+            starRefs[0].GetComponent<Image>().color = highlightColor;
             if (strokes != par)
+            {
                 starMask += GameConfig.SECOND_STAR_MASK;
+                starRefs[1].GetComponent<Image>().color = highlightColor;
+            }
         }
         if (time <= timeToBeat)
         {
             starMask += GameConfig.THIRD_STAR_MASK;
+            starRefs[2].GetComponent<Image>().color = highlightColor;
         }
 
-        // TODO init level complete screen and send starMask in event?
         LevelData.instance.updateCurrentLevelData(strokes, (int)time, starMask);
         showCompleteMenu(starMask);
     }

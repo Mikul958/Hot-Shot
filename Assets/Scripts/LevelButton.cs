@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     public int levelNumber;
-    private string highlightColorHex = "#FFDD12FF";
     private Color highlightColor;
     private MenuManager menuManager;
     private GameObject[] starRefs;
@@ -12,7 +11,7 @@ public class LevelButton : MonoBehaviour
     void Start()
     {
         menuManager = FindFirstObjectByType<MenuManager>();
-        ColorUtility.TryParseHtmlString(highlightColorHex, out highlightColor);
+        ColorUtility.TryParseHtmlString(GameConfig.STAR_HIGHLIGHT_HEX, out highlightColor);
 
         starRefs = new GameObject[3];
         foreach (Transform child in this.transform)
