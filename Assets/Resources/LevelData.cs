@@ -68,11 +68,18 @@ public class LevelData : ScriptableObject
         File.WriteAllText(levelPath, levelJSON);
     }
 
+    public Level getLevelDataAt(int levelNumber)
+    {
+        if (levelNumber > 0 && levelNumber - 1 < levels.Length)
+            return levels[levelNumber - 1];
+        throw new IndexOutOfRangeException("Level number " + levelNumber + " out of range");
+    }
+
     public Level getCurrentLevel()
     {
         if (currentLevel > 0 && currentLevel - 1 < levels.Length)
             return levels[currentLevel - 1];
-        throw new Exception("Current level is set to number " + currentLevel + "(index " + (currentLevel - 1) + "); this level number is out of bounds");
+        throw new IndexOutOfRangeException("Current level is set to number " + currentLevel + " (index " + (currentLevel - 1) + "); this level number is out of bounds");
     }
     
     public void setCurrentLevel(int levelNumber)
@@ -80,7 +87,7 @@ public class LevelData : ScriptableObject
         if (levelNumber > 0 && levelNumber - 1 < levels.Length)
             currentLevel = levelNumber;
         else
-            throw new Exception("Level at number " + levelNumber + "(index " + (levelNumber - 1) + ") does not exist");
+            throw new IndexOutOfRangeException("Level at number " + levelNumber + " (index " + (levelNumber - 1) + ") does not exist");
     }
 
     public bool incrementCurrentLevelOrExit()
