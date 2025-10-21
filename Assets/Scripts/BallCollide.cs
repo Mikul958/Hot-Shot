@@ -94,10 +94,18 @@ public class BallCollide : MonoBehaviour
             outOfBoundsTimer = 0f;
             if (outOfBoundsState == 1)
             {
-                AudioManager.instance.Play("Water_splash");
-                ballMove.hideBall();
-                outOfBoundsState = 2;
-                outOfBoundsTimer += GameConfig.instance.respawnWait;
+                Collider2D collider = Physics2D.OverlapPoint(rigidBody.position, specialLayers);
+                if (collider != null && collider.gameObject.layer == LayerMask.NameToLayer("OutOfBounds"))
+                {
+                    AudioManager.instance.Play("Water_splash");
+                    ballMove.hideBall();
+                    outOfBoundsState = 2;
+                    outOfBoundsTimer += GameConfig.instance.respawnWait;
+                }
+                else
+                {
+                    outOfBoundsState = 0;
+                }
             }
             else if (outOfBoundsState == 2)
             {

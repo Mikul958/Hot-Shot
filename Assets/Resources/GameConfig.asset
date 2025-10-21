@@ -25,7 +25,7 @@ MonoBehaviour:
   addedRampScale: 0.5
   rampHangtime: 0.2
   boostCooldown: 1
-  outOfBoundsWait: 0.2
+  outOfBoundsWait: 0.15
   respawnWait: 1
   greenDrag: 1
   roughDrag: 3
