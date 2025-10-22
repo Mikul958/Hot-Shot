@@ -46,37 +46,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   sounds:
   - name: Hole
-    clip: {fileID: 8300000, guid: ec2981ba26fc3d340ba88df18482264b, type: 3}
+    clip: {fileID: 8300000, guid: ad87493b6a34ae84790e87c2c2d18671, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Button
-    clip: {fileID: 8300000, guid: ebf4ca33e5ecf9847a9c29e6a6ef6d22, type: 3}
+    clip: {fileID: 8300000, guid: c10795d84b73a88499baf0bd3b3a995b, type: 3}
     volume: 1
     pitch: 2.2
     loop: 0
     source: {fileID: 0}
   - name: Putter
-    clip: {fileID: 8300000, guid: d910e80f42bc14c4fb55cec41ab29d51, type: 3}
+    clip: {fileID: 8300000, guid: eead3dd2dfb0acb448833d9c766db83a, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Rock_bounce
-    clip: {fileID: 8300000, guid: 04f1019cccff3584898ed39ea2f14114, type: 3}
+    clip: {fileID: 8300000, guid: 9d0a18b0f132d854b8c73c6893299d7a, type: 3}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Speed_boost
-    clip: {fileID: 8300000, guid: c97b8773a021e274eb2f926a799a8ceb, type: 3}
+    clip: {fileID: 8300000, guid: 6e87ae9b039c4b649801591232ea944f, type: 3}
     volume: 1
     pitch: 0.818
     loop: 0
     source: {fileID: 0}
   - name: Water_splash
-    clip: {fileID: 8300000, guid: b23a41b235a28d4459ab379a31d0876b, type: 3}
+    clip: {fileID: 8300000, guid: fafed0ddab361dd45a95e7196988ff8d, type: 3}
     volume: 1
     pitch: 1
     loop: 0
